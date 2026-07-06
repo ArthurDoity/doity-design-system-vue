@@ -1,0 +1,11 @@
+node_modules
+dist
+.nuxt
+.output
+storybook-static
+*.log
+.DS_Store
+.env
+.env.*
+!.env.example
+.npmrc

@@ -1,0 +1,22 @@
+{
+  "name": "doity-design-system-vue",
+  "private": true,
+  "type": "module",
+  "scripts": {
+    "build": "pnpm --filter @arthurboity/design-system build",
+    "dev": "pnpm --filter @arthurboity/design-system dev",
+    "dev:playground": "pnpm --filter @arthurboity/design-system dev:playground",
+    "storybook": "pnpm --filter @arthurboity/design-system storybook",
+    "build-storybook": "pnpm --filter @arthurboity/design-system build-storybook",
+    "tokens:generate": "pnpm --filter @arthurboity/design-system tokens:generate",
+    "tokens:sync": "pnpm --filter @arthurboity/design-system tokens:sync",
+    "prepare": "pnpm --filter @arthurboity/design-system build"
+  },
+  "devDependencies": {
+    "typescript": "^5.8.3"
+  },
+  "packageManager": "pnpm@9.15.0",
+  "engines": {
+    "node": ">=20"
+  }
+}

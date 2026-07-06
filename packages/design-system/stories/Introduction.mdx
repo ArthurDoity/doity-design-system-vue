@@ -1,0 +1,63 @@
+import { Meta } from '@storybook/blocks'
+
+<Meta title="Introdução/Como usar" />
+
+# Doity Design System
+
+Pacote Vue/Nuxt 4 com componentes, design tokens CSS e documentação sincronizada com o Figma.
+
+## Instalação
+
+```bash
+pnpm add @arthurboity/design-system
+```
+
+Configure o módulo:
+
+```ts
+// nuxt.config.ts
+export default defineNuxtConfig({
+  modules: ['@arthurboity/design-system'],
+})
+```
+
+## Uso nos componentes
+
+Todos os componentes são registrados **globalmente** com prefixo `Doity`:
+
+| Storybook | No seu projeto Nuxt |
+|-----------|---------------------|
+| `Button` | `<DoityButton>` |
+| `Input` | `<DoityInput>` |
+| `Select` | `<DoitySelect>` |
+
+Exemplo:
+
+```vue
+<template>
+  <DoityButton hierarchy="primary" size="md" @click="salvar">
+    Salvar
+  </DoityButton>
+</template>
+```
+
+## Publicação no GitHub
+
+Veja o guia completo em [docs/PUBLISHING.md](https://github.com/ArthurDoity/doity-design-system-vue/blob/main/docs/PUBLISHING.md).
+
+## Tokens
+
+Cores, tipografia e espaçamentos vêm de CSS variables `--doity-*`. Ao atualizar o pacote, mudanças nos tokens refletem em todos os componentes automaticamente.
+
+```css
+/* Exemplo: cor do botão primário */
+background: var(--doity-color-action-primary-default);
+```
+
+## Navegação
+
+Use o menu **Components** à esquerda. Cada componente inclui:
+
+- **Instalação e importação** — como usar no Nuxt
+- **Props** — variáveis com descrição
+- **Show code** — exemplo de uso real (`DoityButton`, `DoityInput`, etc.)
