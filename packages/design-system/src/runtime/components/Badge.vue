@@ -1,4 +1,5 @@
 <script setup>
+import { toRefs } from 'vue'
 const props = defineProps({
   variant: { type: String, required: false, default: "gray" },
   size: { type: String, required: false, default: "md" },

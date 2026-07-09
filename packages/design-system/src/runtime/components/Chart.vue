@@ -1,4 +1,5 @@
 <script setup>
+import { computed, toRefs } from 'vue'
 const props = defineProps({
   data: { type: Array, required: false, default: () => [] },
   type: { type: String, required: false, default: "bar" },

@@ -1,7 +1,7 @@
 import type { Meta, StoryObj } from '@storybook/vue3'
 import { ref } from 'vue'
 import Pagination from '../src/runtime/components/Pagination.vue'
-import { doityStoryMeta } from './helpers/doityStoryMeta'
+import { doityStoryMeta, storyUsage } from './helpers/doityStoryMeta'
 
 const meta = {
   ...doityStoryMeta('Pagination', Pagination),
@@ -11,6 +11,7 @@ export default meta
 type Story = StoryObj<typeof Pagination>
 
 export const Default: Story = {
+  parameters: storyUsage(`<DoityPagination v-model:page="page" :total-pages="10" />`),
   render: () => ({
     components: { Pagination },
     setup() {
@@ -27,6 +28,7 @@ export const Default: Story = {
 }
 
 export const FewPages: Story = {
+  parameters: storyUsage('<DoityPagination v-model:page="page" :total-pages="5" />'),
   render: () => ({
     components: { Pagination },
     setup() {

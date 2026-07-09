@@ -15,7 +15,7 @@ export interface ModuleOptions {
 
 export default defineNuxtModule<ModuleOptions>({
   meta: {
-    name: '@arthurboity/design-system',
+    name: '@arthurdoity/design-system',
     configKey: 'doityDesignSystem',
     compatibility: {
       nuxt: '>=3.0.0 || ^4.0.0',

@@ -1,6 +1,6 @@
 import type { Meta, StoryObj } from '@storybook/vue3'
 import Alert from '../src/runtime/components/Alert.vue'
-import { doityStoryMeta } from './helpers/doityStoryMeta'
+import { doityStoryMeta, storyUsage } from './helpers/doityStoryMeta'
 
 const meta = {
   ...doityStoryMeta('Alert', Alert, {
@@ -22,6 +22,12 @@ export const Default: Story = {
     variant: 'default',
     icon: true,
   },
+  parameters: storyUsage(`<DoityAlert
+  variant="default"
+  title="Heads up!"
+  description="You can add components to your app using the cli."
+  :icon="true"
+/>`),
   render: args => ({
     components: { Alert },
     setup: () => ({ args }),
@@ -30,6 +36,11 @@ export const Default: Story = {
 }
 
 export const AllVariants: Story = {
+  parameters: storyUsage(`<DoityAlert variant="default" title="Default" description="Mensagem padrão" :icon="true" />
+<DoityAlert variant="success" title="Success" description="Operação concluída" :icon="true" />
+<DoityAlert variant="warning" title="Warning" description="Atenção necessária" :icon="true" />
+<DoityAlert variant="error" title="Error" description="Algo deu errado" :icon="true" />
+<DoityAlert variant="info" title="Info" description="Informação adicional" :icon="true" />`),
   render: () => ({
     components: { Alert },
     template: `

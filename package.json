@@ -3,14 +3,15 @@
   "private": true,
   "type": "module",
   "scripts": {
-    "build": "pnpm --filter @arthurboity/design-system build",
-    "dev": "pnpm --filter @arthurboity/design-system dev",
-    "dev:playground": "pnpm --filter @arthurboity/design-system dev:playground",
-    "storybook": "pnpm --filter @arthurboity/design-system storybook",
-    "build-storybook": "pnpm --filter @arthurboity/design-system build-storybook",
-    "tokens:generate": "pnpm --filter @arthurboity/design-system tokens:generate",
-    "tokens:sync": "pnpm --filter @arthurboity/design-system tokens:sync",
-    "prepare": "pnpm --filter @arthurboity/design-system build"
+    "build": "pnpm --filter @arthurdoity/design-system build",
+    "dev": "pnpm --filter @arthurdoity/design-system dev",
+    "dev:playground": "pnpm --filter @arthurdoity/design-system dev:playground",
+    "storybook": "pnpm --filter @arthurdoity/design-system storybook",
+    "build-storybook": "pnpm --filter @arthurdoity/design-system build-storybook",
+    "tokens:generate": "pnpm --filter @arthurdoity/design-system tokens:generate",
+    "tokens:sync": "pnpm --filter @arthurdoity/design-system tokens:sync",
+    "prepare": "pnpm --filter @arthurdoity/design-system build",
+    "publish:package": "npm publish ./packages/design-system --userconfig=.npmrc --registry=https://npm.pkg.github.com --no-git-checks"
   },
   "devDependencies": {
     "typescript": "^5.8.3"

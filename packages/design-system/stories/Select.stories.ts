@@ -1,6 +1,6 @@
 import type { Meta, StoryObj } from '@storybook/vue3'
 import Select from '../src/runtime/components/Select.vue'
-import { doityStoryMeta } from './helpers/doityStoryMeta'
+import { doityStoryMeta, storyUsage } from './helpers/doityStoryMeta'
 
 const options = [
   { label: 'São Paulo', value: 'sp' },
@@ -23,6 +23,12 @@ export const Default: Story = {
     options,
     hint: 'Escolha seu estado',
   },
+  parameters: storyUsage(`<DoitySelect
+  label="Estado"
+  placeholder="Selecione..."
+  :options="options"
+  hint="Escolha seu estado"
+/>`),
   render: args => ({
     components: { Select },
     setup: () => ({ args }),
@@ -31,6 +37,11 @@ export const Default: Story = {
 }
 
 export const AllSizes: Story = {
+  parameters: storyUsage(`<DoitySelect size="sm" placeholder="Small" :options="options" />
+<DoitySelect size="md" placeholder="Medium" :options="options" />
+<DoitySelect size="lg" placeholder="Large" :options="options" />
+<DoitySelect label="Com erro" error="Seleção obrigatória" :options="options" />
+<DoitySelect label="Desabilitado" disabled :options="options" />`),
   render: () => ({
     components: { Select },
     setup: () => ({ options }),

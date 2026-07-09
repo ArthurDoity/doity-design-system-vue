@@ -1,4 +1,5 @@
 <script setup>
+import { computed, toRefs } from 'vue'
 const props = defineProps({
   src: { type: String, required: false },
   alt: { type: String, required: false },

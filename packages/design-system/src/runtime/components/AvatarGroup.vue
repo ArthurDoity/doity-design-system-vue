@@ -1,4 +1,5 @@
 <script setup>
+import { computed, useSlots } from 'vue'
 const props = defineProps({
   size: { type: String, required: false, default: "md" },
   max: { type: Number, required: false, default: 4 },

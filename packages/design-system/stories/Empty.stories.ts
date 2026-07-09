@@ -1,6 +1,6 @@
 import type { Meta, StoryObj } from '@storybook/vue3'
 import Empty from '../src/runtime/components/Empty.vue'
-import { doityStoryMeta } from './helpers/doityStoryMeta'
+import { doityStoryMeta, storyUsage } from './helpers/doityStoryMeta'
 
 const meta = {
   ...doityStoryMeta('Empty', Empty),
@@ -9,7 +9,9 @@ const meta = {
 export default meta
 type Story = StoryObj<typeof Empty>
 
-export const Default: Story = {}
+export const Default: Story = {
+  parameters: storyUsage('<DoityEmpty />'),
+}
 
 export const Small: Story = {
   args: {
@@ -18,6 +20,12 @@ export const Small: Story = {
     description: 'Adicione o primeiro item para começar.',
     hideActions: true,
   },
+  parameters: storyUsage(`<DoityEmpty
+  size="sm"
+  title="Lista vazia"
+  description="Adicione o primeiro item para começar."
+  :hide-actions="true"
+/>`),
 }
 
 export const WithActions: Story = {
@@ -27,4 +35,10 @@ export const WithActions: Story = {
     primaryLabel: 'Criar evento',
     secondaryLabel: 'Saiba mais',
   },
+  parameters: storyUsage(`<DoityEmpty
+  title="Nenhum evento"
+  description="Crie seu primeiro evento para começar."
+  primary-label="Criar evento"
+  secondary-label="Saiba mais"
+/>`),
 }

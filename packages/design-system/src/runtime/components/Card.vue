@@ -1,4 +1,5 @@
 <script setup>
+import { toRefs, useSlots } from 'vue'
 const props = defineProps({
   title: { type: String, required: false, default: void 0 },
   subtitle: { type: String, required: false, default: void 0 }

@@ -1,6 +1,6 @@
 import type { Meta, StoryObj } from '@storybook/vue3'
 import Textarea from '../src/runtime/components/Textarea.vue'
-import { doityStoryMeta } from './helpers/doityStoryMeta'
+import { doityStoryMeta, storyUsage } from './helpers/doityStoryMeta'
 
 const meta = {
   ...doityStoryMeta('Textarea', Textarea, {
@@ -17,6 +17,11 @@ export const Default: Story = {
     placeholder: 'Digite uma descrição...',
     hint: 'Máximo 500 caracteres',
   },
+  parameters: storyUsage(`<DoityTextarea
+  label="Descrição"
+  placeholder="Digite uma descrição..."
+  hint="Máximo 500 caracteres"
+/>`),
   render: args => ({
     components: { Textarea },
     setup: () => ({ args }),
@@ -25,6 +30,10 @@ export const Default: Story = {
 }
 
 export const AllStates: Story = {
+  parameters: storyUsage(`<DoityTextarea label="Padrão" placeholder="Digite aqui..." />
+<DoityTextarea label="Com erro" error="Campo obrigatório" />
+<DoityTextarea label="Desabilitado" disabled />
+<DoityTextarea label="Sem resize" resize="none" :rows="3" />`),
   render: () => ({
     components: { Textarea },
     template: `

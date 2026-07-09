@@ -1,6 +1,6 @@
 import type { Meta, StoryObj } from '@storybook/vue3'
 import Card from '../src/runtime/components/Card.vue'
-import { doityStoryMeta } from './helpers/doityStoryMeta'
+import { doityStoryMeta, storyUsage } from './helpers/doityStoryMeta'
 
 const meta = {
   ...doityStoryMeta('Card', Card),
@@ -10,6 +10,10 @@ export default meta
 type Story = StoryObj<typeof Card>
 
 export const Default: Story = {
+  parameters: storyUsage(`<DoityCard>
+  <h3>Card Title</h3>
+  <p>Card description goes here.</p>
+</DoityCard>`),
   render: () => ({
     components: { Card },
     template: `

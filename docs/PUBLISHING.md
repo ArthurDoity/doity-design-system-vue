@@ -1,4 +1,4 @@
-# Publicar e usar @arthurboity/design-system
+# Publicar e usar @arthurdoity/design-system
 
 Guia para publicar o pacote no GitHub Packages e instalá-lo em projetos Nuxt/Vue.
 
@@ -27,30 +27,72 @@ git push -u origin main
 
 ### 2. Configurar autenticação (máquina do mantenedor)
 
-Crie um [Personal Access Token](https://github.com/settings/tokens) com escopo `write:packages` e `read:packages`.
+Crie um [Personal Access Token (classic)](https://github.com/settings/tokens) com os escopos:
 
-Copie `.npmrc.example` para `.npmrc` na raiz (ou use `~/.npmrc`):
+- `write:packages`
+- `read:packages`
+- `repo` (necessário para publicar pacotes vinculados ao repositório)
+
+**Opção A — `.npmrc` na pasta do usuário (recomendado no Windows)**
+
+Crie ou edite `C:\Users\SEU_USUARIO\.npmrc`:
 
 ```ini
-@arthurboity:registry=https://npm.pkg.github.com
+@arthurdoity:registry=https://npm.pkg.github.com
 //npm.pkg.github.com/:_authToken=SEU_GITHUB_TOKEN
+always-auth=true
 ```
 
-**Nunca commite o `.npmrc` com token.** O arquivo já está no `.gitignore` se contiver credenciais locais.
+**Opção B — `.npmrc` na raiz do monorepo**
+
+Copie `.npmrc.example` para `.npmrc` na raiz do projeto:
+
+```ini
+@arthurdoity:registry=https://npm.pkg.github.com
+//npm.pkg.github.com/:_authToken=SEU_GITHUB_TOKEN
+always-auth=true
+```
+
+**Nunca commite o `.npmrc` com token.** O arquivo está no `.gitignore`.
+
+**Testar se a autenticação funcionou:**
+
+```bash
+npm whoami --registry=https://npm.pkg.github.com
+# Deve retornar: ArthurDoity
+```
+
+Se retornar `ENEEDAUTH`, o token está ausente, expirado ou sem o escopo `write:packages`.
+
+**Alternativa via variável de ambiente (PowerShell):**
+
+```powershell
+$env:NODE_AUTH_TOKEN = "SEU_GITHUB_TOKEN"
+pnpm --filter @arthurdoity/design-system publish --no-git-checks
+```
 
 ### 3. Publicar manualmente
+
+O `pnpm publish` roda o npm num **diretório temporário** e não encontra o `.npmrc` da raiz — por isso `npm whoami` funciona, mas `pnpm publish` dá `ENEEDAUTH`.
+
+Use o script da raiz (passa o `.npmrc` explicitamente):
 
 ```bash
 # Na raiz do monorepo
 pnpm install
 pnpm build
-
-# Publicar (dispara prepack → build automaticamente)
-cd packages/design-system
-pnpm publish
+pnpm publish:package
 ```
 
-Na primeira publicação, confirme o nome `@arthurboity/design-system` e a versão `0.1.0`.
+Equivalente manual:
+
+```bash
+npm publish ./packages/design-system --userconfig=.npmrc --registry=https://npm.pkg.github.com --no-git-checks
+```
+
+> **Importante:** publique a pasta `packages/design-system`, não a raiz do monorepo. A raiz (`doity-design-system-vue`) é `private` e não tem versão — publicá-la gera `EBADSEMVER`.
+
+Na primeira publicação, confirme o nome `@arthurdoity/design-system` e a versão `0.1.0`.
 
 ### 4. Publicar via GitHub Release (automático)
 
@@ -60,7 +102,7 @@ O workflow `.github/workflows/publish-package.yml` publica quando você cria um 
 2. Tag: `v0.1.0` (deve bater com `"version"` no `package.json`)
 3. Publique o release → o workflow roda `pnpm publish`
 
-Também pode disparar manualmente em **Actions → Publish @arthurboity/design-system → Run workflow**.
+Também pode disparar manualmente em **Actions → Publish @arthurdoity/design-system → Run workflow**.
 
 ### 5. Atualizar versão
 
@@ -84,7 +126,7 @@ git push && git push --tags
 **1. `.npmrc` no projeto consumidor** (raiz):
 
 ```ini
-@arthurboity:registry=https://npm.pkg.github.com
+@arthurdoity:registry=https://npm.pkg.github.com
 //npm.pkg.github.com/:_authToken=${GITHUB_TOKEN}
 ```
 
@@ -93,7 +135,7 @@ Em CI, use `secrets.GITHUB_TOKEN` ou um PAT com `read:packages`.
 **2. Instalar:**
 
 ```bash
-pnpm add @arthurboity/design-system
+pnpm add @arthurdoity/design-system
 ```
 
 **3. Configurar Nuxt:**
@@ -101,7 +143,7 @@ pnpm add @arthurboity/design-system
 ```ts
 // nuxt.config.ts
 export default defineNuxtConfig({
-  modules: ['@arthurboity/design-system'],
+  modules: ['@arthurdoity/design-system'],
 })
 ```
 
@@ -117,7 +159,7 @@ export default defineNuxtConfig({
 **5. Atualizar o pacote** quando sair nova versão:
 
 ```bash
-pnpm update @arthurboity/design-system
+pnpm update @arthurdoity/design-system
 ```
 
 Mudanças em tokens CSS propagam automaticamente — todos os componentes que usam `--doity-*` refletem a nova versão.
@@ -129,7 +171,7 @@ Mudanças em tokens CSS propagam automaticamente — todos os componentes que us
 Útil para testes antes de publicar:
 
 ```bash
-pnpm add @arthurboity/design-system@github:ArthurDoity/doity-design-system-vue#main
+pnpm add @arthurdoity/design-system@github:ArthurDoity/doity-design-system-vue#main
 ```
 
 Para monorepo com subpath:
@@ -151,13 +193,13 @@ pnpm build
 pnpm link --global
 
 # No projeto consumidor
-pnpm link --global @arthurboity/design-system
+pnpm link --global @arthurdoity/design-system
 ```
 
 Ou com pnpm workspace protocol se ambos estiverem no mesmo monorepo:
 
 ```json
-"@arthurboity/design-system": "workspace:*"
+"@arthurdoity/design-system": "workspace:*"
 ```
 
 ---
@@ -173,9 +215,9 @@ O módulo injeta automaticamente:
 Para importar manualmente (projeto Vue sem Nuxt):
 
 ```ts
-import '@arthurboity/design-system/tokens.css'
-import '@arthurboity/design-system/base.css'
-import '@arthurboity/design-system/components.css'
+import '@arthurdoity/design-system/tokens.css'
+import '@arthurdoity/design-system/base.css'
+import '@arthurdoity/design-system/components.css'
 ```
 
 ---
@@ -211,7 +253,7 @@ const { success, error, warning, info } = useDoityToast()
 
 | Erro | Solução |
 |------|---------|
-| `404 Not Found` ao instalar | Verifique `.npmrc`, token com `read:packages`, e acesso ao repo/pacote |
+| `ENEEDAUTH` ao publicar (whoami OK) | Use `pnpm publish:package` da raiz — `pnpm publish` usa pasta temp sem `.npmrc` |
 | `403 Forbidden` ao publicar | Token precisa de `write:packages`; repo deve pertencer à conta `ArthurDoity` |
-| Componentes sem estilo | Confirme `modules: ['@arthurboity/design-system']` e que `injectTokens` não foi desabilitado |
+| Componentes sem estilo | Confirme `modules: ['@arthurdoity/design-system']` e que `injectTokens` não foi desabilitado |
 | Versão antiga após update | Limpe lockfile/cache: `pnpm store prune` e reinstale |

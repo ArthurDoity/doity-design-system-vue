@@ -1,4 +1,5 @@
 <script setup>
+import { computed, toRefs } from 'vue'
 const props = defineProps({
   page: { type: Number, required: false, default: 1 },
   totalPages: { type: Number, required: false, default: 1 },

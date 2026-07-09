@@ -1,4 +1,4 @@
-name: Publish @arthurboity/design-system
+name: Publish @arthurdoity/design-system
 
 on:
   release:
@@ -23,7 +23,7 @@ jobs:
         with:
           node-version: 20
           registry-url: https://npm.pkg.github.com
-          scope: '@arthurboity'
+          scope: '@arthurdoity'
 
       - run: pnpm install --frozen-lockfile
 

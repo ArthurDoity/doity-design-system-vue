@@ -14,11 +14,11 @@ const { components, foundations } = useDoityRegistry()
 
     <div class="docs-callout">
       <strong>Instalação rápida</strong>
-      <pre class="docs-code"><code>pnpm add @arthurboity/design-system
+      <pre class="docs-code"><code>pnpm add @arthurdoity/design-system
 
 // nuxt.config.ts
 export default defineNuxtConfig({
-  modules: ['@arthurboity/design-system'],
+  modules: ['@arthurdoity/design-system'],
 })</code></pre>
     </div>
 

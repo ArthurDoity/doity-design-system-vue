@@ -1,4 +1,5 @@
 <script setup>
+import { computed } from 'vue'
 const props = defineProps({
   open: { type: Boolean, required: false, default: false },
   title: { type: String, required: false },

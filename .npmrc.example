@@ -1,5 +1,3 @@
-# Copie para .npmrc na raiz do projeto consumidor (ou ~/.npmrc)
-# Conta GitHub: https://github.com/ArthurDoity
-
-@arthurboity:registry=https://npm.pkg.github.com
+@arthurdoity:registry=https://npm.pkg.github.com
 //npm.pkg.github.com/:_authToken=SEU_GITHUB_TOKEN
+always-auth=true

@@ -1,6 +1,6 @@
 import type { Meta, StoryObj } from '@storybook/vue3'
 import Button from '../src/runtime/components/Button.vue'
-import { doityStoryMeta } from './helpers/doityStoryMeta'
+import { doityStoryMeta, storyUsage } from './helpers/doityStoryMeta'
 
 const sizes = ['sm', 'md', 'lg', 'xl', '2xl'] as const
 const hierarchies = ['primary', 'secondary', 'outline', 'link'] as const
@@ -32,6 +32,7 @@ type Story = StoryObj<typeof Button>
 
 export const Primary: Story = {
   args: { hierarchy: 'primary' },
+  parameters: storyUsage('<DoityButton hierarchy="primary">Button</DoityButton>'),
   render: args => ({
     components: { Button },
     setup: () => ({ args }),
@@ -41,6 +42,7 @@ export const Primary: Story = {
 
 export const Secondary: Story = {
   args: { hierarchy: 'secondary' },
+  parameters: storyUsage('<DoityButton hierarchy="secondary">Button</DoityButton>'),
   render: args => ({
     components: { Button },
     setup: () => ({ args }),
@@ -50,6 +52,7 @@ export const Secondary: Story = {
 
 export const Outline: Story = {
   args: { hierarchy: 'outline' },
+  parameters: storyUsage('<DoityButton hierarchy="outline">Button</DoityButton>'),
   render: args => ({
     components: { Button },
     setup: () => ({ args }),
@@ -59,6 +62,7 @@ export const Outline: Story = {
 
 export const Link: Story = {
   args: { hierarchy: 'link' },
+  parameters: storyUsage('<DoityButton hierarchy="link">Button</DoityButton>'),
   render: args => ({
     components: { Button },
     setup: () => ({ args }),
@@ -68,6 +72,7 @@ export const Link: Story = {
 
 export const Destructive: Story = {
   args: { hierarchy: 'primary', destructive: true },
+  parameters: storyUsage('<DoityButton hierarchy="primary" destructive>Delete</DoityButton>'),
   render: args => ({
     components: { Button },
     setup: () => ({ args }),
@@ -77,6 +82,10 @@ export const Destructive: Story = {
 
 export const WithLeadingIcon: Story = {
   args: { icon: 'leading' },
+  parameters: storyUsage(`<DoityButton icon="leading">
+  <template #icon-leading>+</template>
+  Add item
+</DoityButton>`),
   render: args => ({
     components: { Button },
     setup: () => ({ args }),
@@ -89,6 +98,7 @@ export const WithLeadingIcon: Story = {
 
 export const IconOnly: Story = {
   args: { icon: 'only', hierarchy: 'outline' },
+  parameters: storyUsage('<DoityButton icon="only" hierarchy="outline">⚙</DoityButton>'),
   render: args => ({
     components: { Button },
     setup: () => ({ args }),
@@ -98,6 +108,7 @@ export const IconOnly: Story = {
 
 export const Loading: Story = {
   args: { loading: true },
+  parameters: storyUsage('<DoityButton :loading="true">Saving...</DoityButton>'),
   render: args => ({
     components: { Button },
     setup: () => ({ args }),
@@ -106,6 +117,11 @@ export const Loading: Story = {
 }
 
 export const AllSizes: Story = {
+  parameters: storyUsage(`<DoityButton size="sm">sm</DoityButton>
+<DoityButton size="md">md</DoityButton>
+<DoityButton size="lg">lg</DoityButton>
+<DoityButton size="xl">xl</DoityButton>
+<DoityButton size="2xl">2xl</DoityButton>`),
   render: () => ({
     components: { Button },
     setup: () => ({ sizes }),
@@ -118,6 +134,10 @@ export const AllSizes: Story = {
 }
 
 export const AllHierarchies: Story = {
+  parameters: storyUsage(`<DoityButton hierarchy="primary">primary</DoityButton>
+<DoityButton hierarchy="secondary">secondary</DoityButton>
+<DoityButton hierarchy="outline">outline</DoityButton>
+<DoityButton hierarchy="link">link</DoityButton>`),
   render: () => ({
     components: { Button },
     setup: () => ({ hierarchies }),
@@ -130,6 +150,9 @@ export const AllHierarchies: Story = {
 }
 
 export const AllVariants: Story = {
+  parameters: storyUsage(`<DoityButton hierarchy="primary" size="md">md</DoityButton>
+<DoityButton hierarchy="primary" destructive>destructive</DoityButton>
+<DoityButton hierarchy="primary" disabled>disabled</DoityButton>`),
   render: () => ({
     components: { Button },
     setup: () => ({ sizes, hierarchies }),

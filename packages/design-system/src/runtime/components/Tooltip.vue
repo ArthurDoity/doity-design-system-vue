@@ -1,4 +1,5 @@
 <script setup>
+import { ref } from 'vue'
 const props = defineProps({
   content: { type: String, required: false },
   position: { type: String, required: false, default: "top" },

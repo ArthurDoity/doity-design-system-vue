@@ -2,7 +2,7 @@ import type { Meta, StoryObj } from '@storybook/vue3'
 import Sonner from '../src/runtime/components/Sonner.vue'
 import Button from '../src/runtime/components/Button.vue'
 import { useDoityToast } from '../src/runtime/composables/useDoityToast'
-import { doityStoryMeta } from './helpers/doityStoryMeta'
+import { doityStoryMeta, storyUsage } from './helpers/doityStoryMeta'
 
 const meta = {
   ...doityStoryMeta('Sonner', Sonner),
@@ -12,6 +12,17 @@ export default meta
 type Story = StoryObj
 
 export const AllVariants: Story = {
+  parameters: storyUsage(`<script setup>
+const { success, error, warning, info } = useDoityToast()
+</script>
+
+<template>
+  <DoityButton size="sm" @click="success('Salvo com sucesso!')">Success</DoityButton>
+  <DoityButton size="sm" hierarchy="outline" @click="error('Erro ao salvar')">Error</DoityButton>
+  <DoityButton size="sm" hierarchy="outline" @click="warning('Verifique os dados')">Warning</DoityButton>
+  <DoityButton size="sm" hierarchy="outline" @click="info('Nova atualização disponível')">Info</DoityButton>
+  <DoitySonner />
+</template>`),
   render: () => ({
     components: { Sonner, Button },
     setup() {

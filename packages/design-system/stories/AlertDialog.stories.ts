@@ -2,7 +2,7 @@ import type { Meta, StoryObj } from '@storybook/vue3'
 import { ref } from 'vue'
 import AlertDialog from '../src/runtime/components/AlertDialog.vue'
 import Button from '../src/runtime/components/Button.vue'
-import { doityStoryMeta } from './helpers/doityStoryMeta'
+import { doityStoryMeta, storyUsage } from './helpers/doityStoryMeta'
 
 const meta = {
   ...doityStoryMeta('AlertDialog', AlertDialog, {
@@ -14,6 +14,13 @@ export default meta
 type Story = StoryObj
 
 export const Default: Story = {
+  parameters: storyUsage(`<DoityButton hierarchy="primary" @click="open = true">Abrir diálogo</DoityButton>
+<DoityAlertDialog
+  v-model:open="open"
+  title="Confirmar ação"
+  description="Deseja continuar com esta operação?"
+  confirm-label="Continuar"
+/>`),
   render: () => ({
     components: { AlertDialog, Button },
     setup() {
@@ -35,6 +42,14 @@ export const Default: Story = {
 }
 
 export const Destructive: Story = {
+  parameters: storyUsage(`<DoityButton hierarchy="outline" destructive @click="open = true">Excluir item</DoityButton>
+<DoityAlertDialog
+  v-model:open="open"
+  title="Excluir item?"
+  description="Esta ação não pode ser desfeita."
+  confirm-label="Excluir"
+  destructive
+/>`),
   render: () => ({
     components: { AlertDialog, Button },
     setup() {

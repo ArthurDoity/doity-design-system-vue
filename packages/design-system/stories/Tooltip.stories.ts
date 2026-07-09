@@ -1,7 +1,7 @@
 import type { Meta, StoryObj } from '@storybook/vue3'
 import Tooltip from '../src/runtime/components/Tooltip.vue'
 import Button from '../src/runtime/components/Button.vue'
-import { doityStoryMeta } from './helpers/doityStoryMeta'
+import { doityStoryMeta, storyUsage } from './helpers/doityStoryMeta'
 
 const meta = {
   ...doityStoryMeta('Tooltip', Tooltip),
@@ -11,6 +11,18 @@ export default meta
 type Story = StoryObj
 
 export const Positions: Story = {
+  parameters: storyUsage(`<DoityTooltip content="Tooltip no topo" position="top">
+  <DoityButton hierarchy="outline" size="sm">Top</DoityButton>
+</DoityTooltip>
+<DoityTooltip content="Tooltip à direita" position="right">
+  <DoityButton hierarchy="outline" size="sm">Right</DoityButton>
+</DoityTooltip>
+<DoityTooltip content="Tooltip embaixo" position="bottom">
+  <DoityButton hierarchy="outline" size="sm">Bottom</DoityButton>
+</DoityTooltip>
+<DoityTooltip content="Tooltip à esquerda" position="left">
+  <DoityButton hierarchy="outline" size="sm">Left</DoityButton>
+</DoityTooltip>`),
   render: () => ({
     components: { Tooltip, Button },
     template: `
@@ -33,6 +45,9 @@ export const Positions: Story = {
 }
 
 export const DarkTheme: Story = {
+  parameters: storyUsage(`<DoityTooltip content="Tema escuro" theme="dark" position="top">
+  <DoityButton hierarchy="outline" size="sm">Hover me</DoityButton>
+</DoityTooltip>`),
   render: () => ({
     components: { Tooltip, Button },
     template: `

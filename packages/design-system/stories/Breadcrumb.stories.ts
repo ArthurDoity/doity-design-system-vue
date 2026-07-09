@@ -1,6 +1,6 @@
 import type { Meta, StoryObj } from '@storybook/vue3'
 import Breadcrumb from '../src/runtime/components/Breadcrumb.vue'
-import { doityStoryMeta } from './helpers/doityStoryMeta'
+import { doityStoryMeta, storyUsage } from './helpers/doityStoryMeta'
 
 const meta = {
   ...doityStoryMeta('Breadcrumb', Breadcrumb),
@@ -18,4 +18,10 @@ export const Default: Story = {
       { label: 'Participantes' },
     ],
   },
+  parameters: storyUsage(`<DoityBreadcrumb :items="[
+  { label: 'Home', href: '#' },
+  { label: 'Eventos', href: '#' },
+  { label: 'Meu evento', href: '#' },
+  { label: 'Participantes' },
+]" />`),
 }

@@ -2,7 +2,7 @@ import type { Meta, StoryObj } from '@storybook/vue3'
 import { ref } from 'vue'
 import Modal from '../src/runtime/components/Modal.vue'
 import Button from '../src/runtime/components/Button.vue'
-import { doityStoryMeta } from './helpers/doityStoryMeta'
+import { doityStoryMeta, storyUsage } from './helpers/doityStoryMeta'
 
 const meta = {
   ...doityStoryMeta('Modal', Modal),
@@ -12,6 +12,10 @@ export default meta
 type Story = StoryObj
 
 export const Default: Story = {
+  parameters: storyUsage(`<DoityButton hierarchy="primary" @click="open = true">Abrir modal</DoityButton>
+<DoityModal v-model:open="open" title="Modal de exemplo" description="Conteúdo do modal com overlay." featured-icon>
+  <p>Slot para conteúdo customizado.</p>
+</DoityModal>`),
   render: () => ({
     components: { Modal, Button },
     setup() {
@@ -30,6 +34,10 @@ export const Default: Story = {
 }
 
 export const Fullscreen: Story = {
+  parameters: storyUsage(`<DoityButton hierarchy="outline" @click="open = true">Fullscreen</DoityButton>
+<DoityModal v-model:open="open" title="Modal fullscreen" fullscreen>
+  <p>Conteúdo em tela cheia.</p>
+</DoityModal>`),
   render: () => ({
     components: { Modal, Button },
     setup() {

@@ -8,14 +8,14 @@ function buildDescription(entry: ComponentDocEntry | undefined, doityName: strin
     '### Instalação',
     '',
     '```bash',
-    'pnpm add @arthurboity/design-system',
+    'pnpm add @arthurdoity/design-system',
     '```',
     '',
     'Configure o módulo no `nuxt.config.ts`:',
     '',
     '```ts',
     'export default defineNuxtConfig({',
-    "  modules: ['@arthurboity/design-system'],",
+    "  modules: ['@arthurdoity/design-system'],",
     '})',
     '```',
     '',
@@ -76,11 +76,6 @@ export function getDoityParameters(name: ComponentDocName) {
       description: {
         component: buildDescription(entry, doityName, usage),
       },
-      source: {
-        type: 'code' as const,
-        language: 'html' as const,
-        code: usage,
-      },
     },
   }
 }
@@ -105,10 +100,6 @@ export function doityStoryMeta<T>(
         description: {
           ...getDoityParameters(name).docs.description,
           ...overrides.parameters?.docs?.description,
-        },
-        source: {
-          ...getDoityParameters(name).docs.source,
-          ...overrides.parameters?.docs?.source,
         },
       },
     },

@@ -3,7 +3,7 @@ import { ref } from 'vue'
 import Dialog from '../src/runtime/components/Dialog.vue'
 import Button from '../src/runtime/components/Button.vue'
 import Input from '../src/runtime/components/Input.vue'
-import { doityStoryMeta } from './helpers/doityStoryMeta'
+import { doityStoryMeta, storyUsage } from './helpers/doityStoryMeta'
 
 const meta = {
   ...doityStoryMeta('Dialog', Dialog),
@@ -13,6 +13,10 @@ export default meta
 type Story = StoryObj
 
 export const Default: Story = {
+  parameters: storyUsage(`<DoityButton hierarchy="primary" @click="open = true">Abrir dialog</DoityButton>
+<DoityDialog v-model:open="open" title="Editar perfil" description="Atualize suas informações.">
+  <DoityInput label="Nome" placeholder="Seu nome" />
+</DoityDialog>`),
   render: () => ({
     components: { Dialog, Button, Input },
     setup() {
@@ -31,6 +35,10 @@ export const Default: Story = {
 }
 
 export const Sizes: Story = {
+  parameters: storyUsage(`<DoityButton hierarchy="outline" @click="openSm = true">Small</DoityButton>
+<DoityButton hierarchy="outline" @click="openLg = true">Large</DoityButton>
+<DoityDialog v-model:open="openSm" title="Dialog SM" size="sm" />
+<DoityDialog v-model:open="openLg" title="Dialog LG" size="lg" description="Dialog maior para mais conteúdo." />`),
   render: () => ({
     components: { Dialog, Button },
     setup() {

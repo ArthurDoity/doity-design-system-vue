@@ -1,4 +1,5 @@
 <script setup>
+import { ref } from 'vue'
 const props = defineProps({
   variant: { type: String, required: false, default: "default" },
   title: { type: String, required: false },

@@ -1,6 +1,6 @@
 import type { Meta, StoryObj } from '@storybook/vue3'
 import Badge from '../src/runtime/components/Badge.vue'
-import { doityStoryMeta } from './helpers/doityStoryMeta'
+import { doityStoryMeta, storyUsage } from './helpers/doityStoryMeta'
 
 const meta = {
   ...doityStoryMeta('Badge', Badge, {
@@ -17,6 +17,7 @@ export default meta
 type Story = StoryObj<typeof Badge>
 
 export const Default: Story = {
+  parameters: storyUsage('<DoityBadge variant="gray" size="md">Badge</DoityBadge>'),
   render: args => ({
     components: { Badge },
     setup: () => ({ args }),
@@ -25,6 +26,16 @@ export const Default: Story = {
 }
 
 export const AllVariants: Story = {
+  parameters: storyUsage(`<DoityBadge variant="gray">Gray</DoityBadge>
+<DoityBadge variant="primary">Primary</DoityBadge>
+<DoityBadge variant="success">Success</DoityBadge>
+<DoityBadge variant="warning">Warning</DoityBadge>
+<DoityBadge variant="error">Error</DoityBadge>
+<DoityBadge variant="outline">Outline</DoityBadge>
+<DoityBadge size="sm">Small</DoityBadge>
+<DoityBadge size="md">Medium</DoityBadge>
+<DoityBadge size="lg">Large</DoityBadge>
+<DoityBadge dot variant="success">With dot</DoityBadge>`),
   render: () => ({
     components: { Badge },
     template: `

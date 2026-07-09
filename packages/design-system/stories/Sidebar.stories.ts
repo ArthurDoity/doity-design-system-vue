@@ -1,6 +1,6 @@
 import type { Meta, StoryObj } from '@storybook/vue3'
 import Sidebar from '../src/runtime/components/Sidebar.vue'
-import { doityStoryMeta } from './helpers/doityStoryMeta'
+import { doityStoryMeta, storyUsage } from './helpers/doityStoryMeta'
 
 const items = [
   { label: 'Dashboard', icon: '▦', active: true },
@@ -22,6 +22,18 @@ export default meta
 type Story = StoryObj
 
 export const Default: Story = {
+  parameters: storyUsage(`<DoitySidebar
+  :roles="roles"
+  active-role="organizer"
+  :items="items"
+  show-cta
+  :profile-card="{
+    title: 'Perfil 80%',
+    subtitle: 'Complete seu cadastro',
+    progress: 80,
+    progressLabel: '80% concluído',
+  }"
+/>`),
   render: () => ({
     components: { Sidebar },
     setup: () => ({ items, roles }),
@@ -41,6 +53,7 @@ export const Default: Story = {
 }
 
 export const Collapsed: Story = {
+  parameters: storyUsage('<DoitySidebar :items="items" collapsed />'),
   render: () => ({
     components: { Sidebar },
     setup: () => ({ items }),

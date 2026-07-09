@@ -1,7 +1,7 @@
 import type { Meta, StoryObj } from '@storybook/vue3'
 import Dropdown from '../src/runtime/components/Dropdown.vue'
 import Button from '../src/runtime/components/Button.vue'
-import { doityStoryMeta } from './helpers/doityStoryMeta'
+import { doityStoryMeta, storyUsage } from './helpers/doityStoryMeta'
 
 const items = [
   { label: 'Editar', value: 'edit' },
@@ -18,6 +18,7 @@ export default meta
 type Story = StoryObj
 
 export const Default: Story = {
+  parameters: storyUsage(`<DoityDropdown :items="items" />`),
   render: () => ({
     components: { Dropdown },
     setup: () => ({ items }),
@@ -26,6 +27,11 @@ export const Default: Story = {
 }
 
 export const CustomTrigger: Story = {
+  parameters: storyUsage(`<DoityDropdown :items="items">
+  <template #trigger>
+    <DoityButton hierarchy="outline" icon="trailing">Opções ▾</DoityButton>
+  </template>
+</DoityDropdown>`),
   render: () => ({
     components: { Dropdown, Button },
     setup: () => ({ items }),

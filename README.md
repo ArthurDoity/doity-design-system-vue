@@ -32,7 +32,7 @@ O `pnpm install` já dispara o build do pacote automaticamente.
 |---------|-----------|-----|
 | `pnpm storybook` | Galeria de componentes | http://localhost:6006 |
 | `pnpm dev:playground` | Documentação estilo Bootstrap | http://localhost:3000 |
-| `pnpm build` | Build do pacote `@arthurboity/design-system` | — |
+| `pnpm build` | Build do pacote `@arthurdoity/design-system` | — |
 
 ### Compartilhar por ZIP
 
@@ -69,10 +69,10 @@ pnpm tokens:generate
 
 ```bash
 # .npmrc na raiz do projeto consumidor
-@arthurboity:registry=https://npm.pkg.github.com
+@arthurdoity:registry=https://npm.pkg.github.com
 //npm.pkg.github.com/:_authToken=SEU_GITHUB_TOKEN
 
-pnpm add @arthurboity/design-system
+pnpm add @arthurdoity/design-system
 ```
 
 Guia completo de publicação e instalação: **[docs/PUBLISHING.md](docs/PUBLISHING.md)**
@@ -80,7 +80,7 @@ Guia completo de publicação e instalação: **[docs/PUBLISHING.md](docs/PUBLIS
 ```ts
 // nuxt.config.ts
 export default defineNuxtConfig({
-  modules: ['@arthurboity/design-system'],
+  modules: ['@arthurdoity/design-system'],
 })
 ```
 
@@ -117,7 +117,7 @@ FIGMA_ACCESS_TOKEN=xxx pnpm tokens:sync
 2. `pnpm tokens:sync` puxa variáveis do Figma → `tokens/tokens.json`
 3. `pnpm tokens:generate` gera `tokens.css` com `--doity-*` CSS variables
 4. Ajuste componentes se necessário, `pnpm build`, publique nova versão
-5. Projetos consumidores atualizam `@arthurboity/design-system` — **todos os botões, cores, etc. mudam automaticamente** pois usam os mesmos tokens
+5. Projetos consumidores atualizam `@arthurdoity/design-system` — **todos os botões, cores, etc. mudam automaticamente** pois usam os mesmos tokens
 
 ## Estrutura
 

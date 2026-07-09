@@ -1,6 +1,6 @@
 import type { Meta, StoryObj } from '@storybook/vue3'
 import Spinner from '../src/runtime/components/Spinner.vue'
-import { doityStoryMeta } from './helpers/doityStoryMeta'
+import { doityStoryMeta, storyUsage } from './helpers/doityStoryMeta'
 
 const meta = {
   ...doityStoryMeta('Spinner', Spinner, {
@@ -16,9 +16,13 @@ type Story = StoryObj<typeof Spinner>
 
 export const Default: Story = {
   args: { size: 'md', color: 'brand' },
+  parameters: storyUsage('<DoitySpinner size="md" color="brand" />'),
 }
 
 export const AllSizes: Story = {
+  parameters: storyUsage(`<DoitySpinner size="sm" />
+<DoitySpinner size="md" />
+<DoitySpinner size="lg" />`),
   render: () => ({
     components: { Spinner },
     template: `
@@ -32,6 +36,10 @@ export const AllSizes: Story = {
 }
 
 export const AllColors: Story = {
+  parameters: storyUsage(`<DoitySpinner color="brand" />
+<DoitySpinner color="success" />
+<DoitySpinner color="warning" />
+<DoitySpinner color="error" />`),
   render: () => ({
     components: { Spinner },
     template: `
