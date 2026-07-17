@@ -1,0 +1,10 @@
+<svg preserveAspectRatio="none" width="100%" height="100%" overflow="visible" style="display: block;" viewBox="0 0 16 16" fill="none" xmlns="http://www.w3.org/2000/svg">
+<g id="lucide/loader" clip-path="url(#clip0_0_9)">
+<path id="Vector" d="M8 1.33333V4M10.8 5.19993L12.7333 3.2666M12 8H14.6667M10.8 10.8L12.7333 12.7333M8 12V14.6667M3.2666 12.7333L5.19993 10.8M1.33333 8H4M3.2666 3.2666L5.19993 5.19993" stroke="var(--stroke-0, #0A0A0A)" stroke-linecap="round" stroke-linejoin="round"/>
+</g>
+<defs>
+<clipPath id="clip0_0_9">
+<rect width="16" height="16" fill="white"/>
+</clipPath>
+</defs>
+</svg>

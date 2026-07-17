@@ -1,0 +1,33 @@
+/**
+ * Storybook Docs + TOC: o wrapper usa flex + justify-content:center e o
+ * content width:100%. Em viewports estreitos o bloco estoura e o conteúdo
+ * fica colado (ou com left negativo) na borda da sidebar.
+ */
+.sbdocs.sbdocs-wrapper {
+  box-sizing: border-box;
+  justify-content: flex-start !important;
+  overflow-x: clip;
+  padding: 48px 64px !important;
+}
+
+.sbdocs.sbdocs-content {
+  flex: 1 1 auto;
+  max-width: min(1000px, 100%) !important;
+  min-width: 0;
+  width: auto !important;
+}
+
+.sbdocs .toc-wrapper {
+  flex-shrink: 0;
+  margin-left: auto;
+}
+
+@media (max-width: 900px) {
+  .sbdocs.sbdocs-wrapper {
+    padding: 32px 24px !important;
+  }
+
+  .sbdocs .toc-wrapper {
+    display: none;
+  }
+}
