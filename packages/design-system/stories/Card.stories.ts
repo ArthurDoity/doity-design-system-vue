@@ -4,6 +4,7 @@ import { doityStoryMeta, storyUsage } from './helpers/doityStoryMeta'
 
 const meta = {
   ...doityStoryMeta('Card', Card),
+  title: 'Components/Data/Card',
 } satisfies Meta
 
 export default meta

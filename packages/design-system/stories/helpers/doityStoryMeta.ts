@@ -80,37 +80,43 @@ export function getDoityParameters(name: ComponentDocName) {
   }
 }
 
-/** Monta meta do Storybook — use com objeto literal + satisfies Meta para compatibilidade CSF */
+/**
+ * Monta meta do Storybook (sem `title`).
+ * Defina `title` como string literal no arquivo da story para o indexador.
+ * Ex.: `{ ...doityStoryMeta('Button', Button), title: 'Components/Actions/Button' }`
+ */
 export function doityStoryMeta<T>(
   name: ComponentDocName,
   component: T,
   overrides: Partial<Meta<T>> = {},
 ): Partial<Meta<T>> {
+  const { title: _ignoredTitle, parameters: overrideParams, argTypes: overrideArgTypes, ...rest } = overrides
+  const baseParams = getDoityParameters(name)
+
   return {
-    title: overrides.title ?? `Components/${name}`,
     component,
     tags: ['autodocs'],
-    ...overrides,
+    ...rest,
     parameters: {
-      ...getDoityParameters(name),
-      ...overrides.parameters,
+      ...baseParams,
+      ...overrideParams,
       docs: {
-        ...getDoityParameters(name).docs,
-        ...overrides.parameters?.docs,
+        ...baseParams.docs,
+        ...overrideParams?.docs,
         description: {
-          ...getDoityParameters(name).docs.description,
-          ...overrides.parameters?.docs?.description,
+          ...baseParams.docs.description,
+          ...overrideParams?.docs?.description,
         },
       },
     },
     argTypes: {
       ...getDoityArgTypes(name),
-      ...overrides.argTypes,
+      ...overrideArgTypes,
     },
   }
 }
 
-/** Define o código exibido no painel "Show code" de uma story específica */
+/** Código exibido no painel "Show code" de uma story */
 export function storyUsage(code: string) {
   return {
     docs: {

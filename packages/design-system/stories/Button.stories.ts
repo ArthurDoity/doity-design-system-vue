@@ -25,6 +25,7 @@ const meta = {
       loading: false,
     },
   }),
+  title: 'Components/Actions/Button',
 } satisfies Meta<typeof Button>
 
 export default meta

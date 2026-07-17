@@ -1,25 +1,50 @@
 import { ref, readonly } from 'vue'
 
+export interface DoityToastAction {
+  label: string
+  onClick?: () => void
+}
+
 export interface DoityToastOptions {
   id?: string
+  /** Título (acima da description, ou mensagem principal se não houver description) */
   title?: string
+  /** Texto secundário ou mensagem principal */
   description?: string
-  variant?: 'default' | 'success' | 'error' | 'warning' | 'info'
+  /**
+   * default — só texto
+   * success | info | warning | error — ícone + texto
+   * loading — spinner (não auto-dismiss por padrão)
+   */
+  variant?: 'default' | 'success' | 'error' | 'warning' | 'info' | 'loading'
+  /** Botão de ação (ex.: Undo) — Figma com action */
+  action?: DoityToastAction
+  /** ms; 0 = não fecha sozinho. loading default: 0 */
   duration?: number
 }
 
-const toasts = ref<Required<Pick<DoityToastOptions, 'id'>> & DoityToastOptions[]>([])
+export type DoityToastItem = Required<Pick<DoityToastOptions, 'id'>> & DoityToastOptions
+
+const toasts = ref<DoityToastItem[]>([])
 let counter = 0
 
 export function useDoityToast() {
   function toast(options: string | DoityToastOptions) {
-    const item: DoityToastOptions & { id: string } = typeof options === 'string'
-      ? { id: `toast-${++counter}`, description: options }
-      : { id: `toast-${++counter}`, duration: 4000, ...options }
+    const base: DoityToastOptions =
+      typeof options === 'string'
+        ? { description: options, variant: 'default' }
+        : { variant: 'default', ...options }
 
-    toasts.value = [...toasts.value, item as typeof toasts.value[number]]
+    const isLoading = base.variant === 'loading'
+    const item: DoityToastItem = {
+      id: base.id ?? `toast-${++counter}`,
+      duration: isLoading ? 0 : 4000,
+      ...base,
+    }
 
-    const duration = item.duration ?? 4000
+    toasts.value = [...toasts.value, item]
+
+    const duration = item.duration ?? (isLoading ? 0 : 4000)
     if (duration > 0) {
       setTimeout(() => dismiss(item.id), duration)
     }
@@ -43,6 +68,10 @@ export function useDoityToast() {
     return toast({ title, description, variant: 'info' })
   }
 
+  function loading(description = 'Loading...') {
+    return toast({ description, variant: 'loading', duration: 0 })
+  }
+
   function dismiss(id: string) {
     toasts.value = toasts.value.filter(t => t.id !== id)
   }
@@ -58,6 +87,7 @@ export function useDoityToast() {
     error,
     warning,
     info,
+    loading,
     dismiss,
     dismissAll,
   }

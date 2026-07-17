@@ -28,7 +28,8 @@ Todos os componentes são registrados **globalmente** com prefixo `Doity`:
 | Storybook | No seu projeto Nuxt |
 |-----------|---------------------|
 | `Button` | `<DoityButton>` |
-| `Input` | `<DoityInput>` |
+| `Checkbox Group` | `<DoityChoiceOption>` / `<DoityCheckboxGroupItem>` |
+| `File Dropzone` | `<DoityFileDropzone>` |
 | `Select` | `<DoitySelect>` |
 
 Exemplo:
@@ -41,23 +42,31 @@ Exemplo:
 </template>
 ```
 
-## Publicação no GitHub
+## Organização do menu
 
-Veja o guia completo em [docs/PUBLISHING.md](https://github.com/ArthurDoity/doity-design-system-vue/blob/main/docs/PUBLISHING.md).
+Os componentes ficam em **Components**, agrupados por uso:
+
+| Categoria | Exemplos |
+|-----------|----------|
+| **Actions** | Button |
+| **Forms** | Input, Select, Dropdown, Date Picker, Checkbox, Radio, Switch, Checkbox Group |
+| **Feedback** | Alert, Sonner, Spinner, Empty, Tooltip |
+| **Navigation** | Navbar, Menubar, Navigation Menu, Tabs, Breadcrumb, Pagination |
+| **Data** | Table, Chart, Badge, Avatar, Card |
+| **Overlay** | Dialog, Modal |
+| **Upload** | File Dropzone, File Upload |
+| **Layout** | Accordion |
+
+Cada página inclui instalação, props, eventos/slots e **Show code** com o nome `Doity*`.
 
 ## Tokens
 
-Cores, tipografia e espaçamentos vêm de CSS variables `--doity-*`. Ao atualizar o pacote, mudanças nos tokens refletem em todos os componentes automaticamente.
+Cores, tipografia e espaçamentos vêm de CSS variables `--doity-*`.
 
 ```css
-/* Exemplo: cor do botão primário */
 background: var(--doity-color-action-primary-default);
 ```
 
-## Navegação
+## Publicação
 
-Use o menu **Components** à esquerda. Cada componente inclui:
-
-- **Instalação e importação** — como usar no Nuxt
-- **Props** — variáveis com descrição
-- **Show code** — exemplo de uso real (`DoityButton`, `DoityInput`, etc.)
+Guia completo: [docs/PUBLISHING.md](https://github.com/ArthurDoity/doity-design-system-vue/blob/main/docs/PUBLISHING.md).

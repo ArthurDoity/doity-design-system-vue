@@ -11,6 +11,7 @@ const options = [
 
 const meta = {
   ...doityStoryMeta('Select', Select),
+  title: 'Components/Forms/Select',
 } satisfies Meta
 
 export default meta
@@ -56,3 +57,30 @@ export const AllSizes: Story = {
     `,
   }),
 }
+
+export const Variants: Story = {
+  parameters: storyUsage(`<DoitySelect label="Label" variant="default" placeholder="Selecione um membro de equipe" :options="options" />
+<DoitySelect label="Label" variant="icon" placeholder="Selecione um membro de equipe" :options="options" />
+<DoitySelect label="Label" variant="search" placeholder="Pesquisar" :options="options" />`),
+  render: () => ({
+    components: { Select },
+    setup: () => ({
+      options: [
+        { label: 'Eduardo Leandro', value: 'eduardo' },
+        { label: 'Ana Silva', value: 'ana' },
+        { label: 'Bruno Costa', value: 'bruno' },
+      ],
+    }),
+    template: `
+      <div style="display:grid;grid-template-columns:1fr 1fr 1fr;gap:24px;min-height:280px;max-width:780px">
+        <Select label="Label" variant="default" placeholder="Selecione um membro de equipe" :options="options" />
+        <Select label="Label" variant="icon" placeholder="Selecione um membro de equipe" :options="options" />
+        <Select label="Label" variant="search" placeholder="Pesquisar" :options="options" />
+        <Select label="Label" variant="default" model-value="eduardo" :options="options" />
+        <Select label="Label" variant="icon" model-value="eduardo" :options="options" />
+        <Select label="Label" variant="search" model-value="eduardo" placeholder="Pesquisar" :options="options" />
+      </div>
+    `,
+  }),
+}
+

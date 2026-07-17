@@ -144,6 +144,7 @@ const isActive = (slug: string) => route.path.includes(slug)
   flex: 1;
   max-width: 960px;
   min-width: 0;
-  padding: var(--doity-spacing-10) var(--doity-spacing-10) var(--doity-spacing-16);
+  padding: var(--doity-spacing-10, 40px) clamp(1.5rem, 4vw, var(--doity-spacing-10, 40px))
+    var(--doity-spacing-16, 64px);
 }
 </style>

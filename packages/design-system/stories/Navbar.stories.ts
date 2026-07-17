@@ -4,6 +4,7 @@ import { doityStoryMeta, storyUsage } from './helpers/doityStoryMeta'
 
 const meta = {
   ...doityStoryMeta('Navbar', Navbar),
+  title: 'Components/Navigation/Navbar',
 } satisfies Meta
 
 export default meta

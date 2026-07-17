@@ -1,5 +1,6 @@
 <script setup>
-import Avatar from './Avatar.vue'
+import AvatarLabelGroup from './AvatarLabelGroup.vue'
+import Dropdown from './Dropdown.vue'
 
 const props = defineProps({
   type: { type: String, required: false, default: "default" },
@@ -19,12 +20,20 @@ const props = defineProps({
   }) },
   sticky: { type: Boolean, required: false, default: false },
   showHelp: { type: Boolean, required: false, default: true },
-  showNotifications: { type: Boolean, required: false, default: true }
+  showNotifications: { type: Boolean, required: false, default: true },
+  /** Itens do menu do usuário (Dropdown) */
+  userMenuItems: { type: Array, required: false, default: () => [
+    { label: "Perfil", value: "profile" },
+    { label: "Sair", value: "logout", destructive: true }
+  ] }
 });
 const emit = defineEmits(["update:activeRole", "role-change", "help-click", "notifications-click", "user-menu-click"]);
 function selectRole(value) {
   emit("update:activeRole", value);
   emit("role-change", value);
+}
+function onUserMenuSelect(item) {
+  emit("user-menu-click", item);
 }
 </script>
 
@@ -120,26 +129,27 @@ function selectRole(value) {
         </button>
 
         <slot name="user">
-          <button
-            type="button"
-            class="doity-navbar__user"
-            @click="emit('user-menu-click')"
+          <Dropdown
+            class="doity-navbar__user-dropdown"
+            align="right"
+            :items="userMenuItems"
+            @select="onUserMenuSelect"
           >
-            <div class="doity-navbar__user-main">
-              <Avatar
-                :src="user?.avatarSrc"
-                :name="user?.name"
-                size="sm"
-              />
-              <div class="doity-navbar__user-text">
-                <span class="doity-navbar__user-name">{{ user?.name }}</span>
-                <span class="doity-navbar__user-email">{{ user?.email }}</span>
-              </div>
-            </div>
-            <svg class="doity-navbar__chevron" viewBox="0 0 16 16" fill="none" aria-hidden="true">
-              <path d="M4 6l4 4 4-4" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" />
-            </svg>
-          </button>
+            <template #trigger>
+              <span class="doity-navbar__user">
+                <AvatarLabelGroup
+                  class="doity-navbar__user-main"
+                  :src="user?.avatarSrc"
+                  :name="user?.name"
+                  :description="user?.email"
+                  size="sm"
+                />
+                <svg class="doity-navbar__chevron" viewBox="0 0 16 16" fill="none" aria-hidden="true">
+                  <path d="M4 6l4 4 4-4" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" />
+                </svg>
+              </span>
+            </template>
+          </Dropdown>
         </slot>
       </div>
     </div>
@@ -147,5 +157,5 @@ function selectRole(value) {
 </template>
 
 <style scoped>
-.doity-navbar{background:var(--doity-color-background-navbar);border-bottom:1px solid var(--doity-color-border-navbar);font-family:var(--doity-font-family-sans);width:100%}.doity-navbar--sticky{position:sticky;top:0;z-index:100}.doity-navbar__inner{align-items:center;display:flex;gap:var(--doity-spacing-6);height:var(--doity-component-navbar-height);justify-content:space-between;padding:0 var(--doity-component-navbar-paddingX)}.doity-navbar__start{align-items:center;display:flex;min-width:0}.doity-navbar__context{font-size:var(--doity-component-navbar-contextFontSize);font-weight:var(--doity-font-weight-regular);line-height:normal;text-decoration:underline;text-transform:uppercase;text-underline-position:from-font}.doity-navbar__context,.doity-navbar__title{color:var(--doity-color-text-primary);margin:0;white-space:nowrap}.doity-navbar__title{font-size:var(--doity-font-size-2xl);font-weight:var(--doity-font-weight-semibold);line-height:var(--doity-font-lineHeight-2xl)}.doity-navbar__page-label{color:var(--doity-color-text-primary);font-size:var(--doity-font-size-md);font-weight:var(--doity-font-weight-medium);line-height:var(--doity-font-lineHeight-lg);margin:0;white-space:nowrap}.doity-navbar__roles{align-items:center;display:flex;gap:var(--doity-component-navbar-rolesGap)}.doity-navbar__role{background:none;border:none;color:var(--doity-color-text-tertiary);cursor:pointer;font-family:inherit;font-size:var(--doity-font-size-xs);font-weight:var(--doity-font-weight-medium);line-height:var(--doity-font-lineHeight-xs);padding:0;text-decoration:none;white-space:nowrap}.doity-navbar__role--active{color:var(--doity-color-text-primary)}.doity-navbar__end{align-items:center;display:flex;flex-shrink:0;gap:var(--doity-component-navbar-actionsGap)}.doity-navbar__icon-btn{align-items:center;background:none;border:none;color:var(--doity-color-text-primary);cursor:pointer;display:inline-flex;height:var(--doity-component-navbar-iconSize);justify-content:center;padding:0;width:var(--doity-component-navbar-iconSize)}.doity-navbar__icon{height:100%;width:100%}.doity-navbar__user{align-items:center;background:none;border:none;cursor:pointer;display:inline-flex;font-family:inherit;gap:var(--doity-component-navbar-userGap);padding:0}.doity-navbar__user-main{align-items:center;display:inline-flex;gap:var(--doity-component-navbar-avatarTextGap)}.doity-navbar__user-text{align-items:flex-start;display:flex;flex-direction:column;justify-content:center;text-align:left}.doity-navbar__user-name{color:var(--doity-color-text-primary);font-weight:var(--doity-font-weight-medium)}.doity-navbar__user-email,.doity-navbar__user-name{font-size:var(--doity-font-size-xs);line-height:var(--doity-font-lineHeight-xs)}.doity-navbar__user-email{color:var(--doity-color-text-tertiary);font-weight:var(--doity-font-weight-regular)}.doity-navbar__chevron{color:var(--doity-color-text-brand);flex-shrink:0;height:var(--doity-component-navbar-chevronSize);width:var(--doity-component-navbar-chevronSize)}@media (max-width:1024px){.doity-navbar__inner{padding:0 var(--doity-spacing-6)}.doity-navbar__user-text{display:none}}
+.doity-navbar{background:var(--doity-color-background-navbar);border-bottom:1px solid var(--doity-color-border-navbar);font-family:var(--doity-font-family-sans);width:100%}.doity-navbar--sticky{position:sticky;top:0;z-index:100}.doity-navbar__inner{align-items:center;display:flex;gap:var(--doity-spacing-6);height:var(--doity-component-navbar-height);justify-content:space-between;padding:0 var(--doity-component-navbar-paddingX)}.doity-navbar__start{align-items:center;display:flex;min-width:0}.doity-navbar__context{font-size:var(--doity-component-navbar-contextFontSize);font-weight:var(--doity-font-weight-regular);line-height:normal;text-decoration:underline;text-transform:uppercase;text-underline-position:from-font}.doity-navbar__context,.doity-navbar__title{color:var(--doity-color-text-primary);margin:0;white-space:nowrap}.doity-navbar__title{font-size:var(--doity-font-size-2xl);font-weight:var(--doity-font-weight-semibold);line-height:var(--doity-font-lineHeight-2xl)}.doity-navbar__page-label{color:var(--doity-color-text-primary);font-size:var(--doity-font-size-md);font-weight:var(--doity-font-weight-medium);line-height:var(--doity-font-lineHeight-lg);margin:0;white-space:nowrap}.doity-navbar__roles{align-items:center;display:flex;gap:var(--doity-component-navbar-rolesGap)}.doity-navbar__role{background:none;border:none;color:var(--doity-color-text-tertiary);cursor:pointer;font-family:inherit;font-size:var(--doity-font-size-xs);font-weight:var(--doity-font-weight-medium);line-height:var(--doity-font-lineHeight-xs);padding:0;text-decoration:none;white-space:nowrap}.doity-navbar__role--active{color:var(--doity-color-text-primary)}.doity-navbar__end{align-items:center;display:flex;flex-shrink:0;gap:var(--doity-component-navbar-actionsGap)}.doity-navbar__icon-btn{align-items:center;background:none;border:none;color:var(--doity-color-text-primary);cursor:pointer;display:inline-flex;height:var(--doity-component-navbar-iconSize);justify-content:center;padding:0;width:var(--doity-component-navbar-iconSize)}.doity-navbar__icon{height:100%;width:100%}.doity-navbar__user{align-items:center;background:none;border:none;cursor:pointer;display:inline-flex;font-family:inherit;gap:var(--doity-component-navbar-userGap);padding:0}.doity-navbar__user-main{align-items:center;display:inline-flex;gap:var(--doity-component-navbar-avatarTextGap)}.doity-navbar__user-text{align-items:flex-start;display:flex;flex-direction:column;justify-content:center;text-align:left}.doity-navbar__user-name{color:var(--doity-color-text-primary);font-weight:var(--doity-font-weight-medium)}.doity-navbar__user-email,.doity-navbar__user-name{font-size:var(--doity-font-size-xs);line-height:var(--doity-font-lineHeight-xs)}.doity-navbar__user-email{color:var(--doity-color-text-tertiary);font-weight:var(--doity-font-weight-regular)}.doity-navbar__chevron{color:var(--doity-color-text-brand);flex-shrink:0;height:var(--doity-component-navbar-chevronSize);width:var(--doity-component-navbar-chevronSize)}.doity-navbar__user-dropdown{display:inline-flex}.doity-navbar__user-main{cursor:pointer}.doity-navbar__user-main :deep(.doity-avatar-label__name){font-weight:var(--doity-font-weight-medium)}.doity-navbar__user-main :deep(.doity-avatar-label__description){color:var(--doity-color-text-tertiary)}@media (max-width:1024px){.doity-navbar__inner{padding:0 var(--doity-spacing-6)}.doity-navbar__user-main :deep(.doity-avatar-label__text){display:none}}
 </style>

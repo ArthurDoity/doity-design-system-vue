@@ -29,22 +29,63 @@ const chartData = [
   { label: 'Abr', value: 80 },
 ]
 
-const sidebarItems = [
-  { label: 'Dashboard', icon: '▦', active: true },
-  { label: 'Eventos', icon: '◉' },
-  { label: 'Participantes', icon: '◎' },
-  { label: 'Configurações', icon: '⚙' },
+const chartSeries = [
+  { name: 'Series 1', values: [720, 760, 700, 680, 740] },
+  { name: 'Series 2', values: [480, 500, 460, 440, 490] },
 ]
 
-const sidebarRoles = [
-  { label: 'Org.', value: 'organizer' },
-  { label: 'Part.', value: 'participant' },
+const chartMonths = ['Jan', 'Fev', 'Mar', 'Abr', 'Mai']
+
+const pieData = [
+  { label: 'Series 1', value: 24 },
+  { label: 'Series 2', value: 38 },
+  { label: 'Series 3', value: 38 },
+]
+
+const menubarItems = [
+  {
+    label: 'File',
+    items: [
+      { label: 'New Tab', shortcut: '⌘T' },
+      { label: 'New Window', shortcut: '⌘N' },
+      { label: 'New Incognito Window', disabled: true },
+      { divider: true },
+      { label: 'Share', submenu: true },
+      { divider: true },
+      { label: 'Print..', shortcut: '⌘P' },
+    ],
+  },
+  { label: 'Edit', items: [{ label: 'Undo', shortcut: '⌘Z' }] },
+  { label: 'View', items: [{ label: 'Zoom In' }] },
+  { label: 'Profiles', items: [{ label: 'Default' }] },
+]
+
+const navigationMenuItems = [
+  { label: 'Home', children: [{ title: 'Overview', description: 'Resumo geral.' }] },
+  {
+    label: 'Components',
+    columns: [
+      [
+        { title: 'Alert Dialog', description: 'Modal de confirmação.' },
+        { title: 'Progress', description: 'Indicador de progresso.' },
+        { title: 'Tabs', description: 'Seções em abas.' },
+      ],
+      [
+        { title: 'Hover Card', description: 'Preview ao passar o mouse.' },
+        { title: 'Scroll-area', description: 'Área com scroll.' },
+        { title: 'Tooltip', description: 'Dica contextual.' },
+      ],
+    ],
+  },
+  { label: 'Docs', href: '#' },
 ]
 
 const dropdownItems = [
-  { label: 'Editar', value: 'edit' },
-  { label: 'Duplicar', value: 'duplicate' },
   { section: true, label: 'Ações' },
+  { label: 'Editar', value: 'edit', icon: true },
+  { label: 'Duplicar', value: 'duplicate', icon: true, selected: true },
+  { divider: true },
+  { label: 'Arquivar', value: 'archive', checkbox: true },
   { label: 'Excluir', value: 'delete', destructive: true },
 ]
 
@@ -57,20 +98,51 @@ const selectOptions = [
 export const componentDemos: Record<string, ReturnType<typeof defineComponent>> = {
   accordion: defineComponent({
     render: () => h(C('Accordion'), {}, () => [
-      h(C('AccordionItem'), { title: 'O que é o Doity Design System?', open: true }, () => 'Pacote Vue/Nuxt com tokens CSS centralizados.'),
-      h(C('AccordionItem'), { title: 'Como atualizar tokens?' }, () => 'Execute pnpm tokens:sync a partir do Figma.'),
+      h(C('AccordionItem'), { title: 'Informações do Produto', open: true }, () => [
+        h('p', 'Nosso produto principal combina tecnologia de ponta com um design elegante.'),
+        h('p', 'Os principais recursos incluem capacidades de processamento avançadas.'),
+      ]),
+      h(C('AccordionItem'), { title: 'Como atualizar tokens?' }, () => 'Execute pnpm tokens:sync com seu token de acesso.'),
       h(C('AccordionItem'), { title: 'Desabilitado', disabled: true }, () => 'Conteúdo oculto'),
     ]),
   }),
 
   alert: defineComponent({
     render: () => col([
-      h(C('Alert'), { variant: 'default', title: 'Default', description: 'Mensagem padrão', icon: true }),
-      h(C('Alert'), { variant: 'success', title: 'Success', description: 'Operação concluída', icon: true }),
-      h(C('Alert'), { variant: 'warning', title: 'Warning', description: 'Atenção necessária', icon: true }),
-      h(C('Alert'), { variant: 'error', title: 'Error', description: 'Algo deu errado', icon: true }),
-      h(C('Alert'), { variant: 'info', title: 'Info', description: 'Informação adicional', icon: true, dismissible: true }),
-    ]),
+      h(C('Alert'), {
+        title: 'Success! Your changes have been saved',
+        description: 'This is an alert with icon, title and description.',
+      }),
+      h(C('Alert'), {
+        title: 'This Alert has a title and an icon. No description.',
+      }),
+      h(C('Alert'), {
+        variant: 'destructive',
+        title: 'Unable to process your payment.',
+      }, () => [
+        h('p', { style: 'margin:0' }, 'Please verify your billing information and try again.'),
+        h('ul', [
+          h('li', 'Check your card details'),
+          h('li', 'Ensure sufficient funds'),
+          h('li', 'Verify billing address'),
+        ]),
+      ]),
+    ], '12px'),
+  }),
+
+  'alert-banner': defineComponent({
+    render: () => col([
+      h(C('AlertBanner'), { variant: 'primary', badge: 'Novo recurso', message: 'Acabamos de lançar um novo recurso' }),
+      h(C('AlertBanner'), { variant: 'error', badge: 'Erro', message: 'Houve um problema com essa ação' }),
+      h(C('AlertBanner'), { variant: 'success', badge: 'Sucesso', message: 'Você atualizou seu perfil e detalhes', showArrow: true }),
+      h(C('AlertBanner'), {
+        variant: 'error',
+        badgePosition: 'trailing',
+        badge: 'Corrigir agora',
+        message: 'Houve um problema com essa ação',
+        showArrow: true,
+      }),
+    ], '12px'),
   }),
 
   'alert-dialog': defineComponent({
@@ -85,10 +157,11 @@ export const componentDemos: Record<string, ReturnType<typeof defineComponent>> 
         h(C('AlertDialog'), {
           open: open.value,
           'onUpdate:open': (v: boolean) => { open.value = v },
-          title: destructive.value ? 'Excluir item?' : 'Confirmar ação',
-          description: destructive.value ? 'Esta ação não pode ser desfeita.' : 'Deseja continuar com esta operação?',
+          title: 'Você tem certeza absoluta?',
+          description: 'Esta ação não pode ser desfeita. Isso excluirá permanentemente sua conta e removerá seus dados de nossos servidores.',
           destructive: destructive.value,
-          confirmLabel: destructive.value ? 'Excluir' : 'Continuar',
+          cancelLabel: 'Cancelar',
+          confirmLabel: 'Continuar',
         }),
       ])
     },
@@ -126,26 +199,41 @@ export const componentDemos: Record<string, ReturnType<typeof defineComponent>> 
         h(C('Badge'), { variant: 'success' }, () => 'Success'),
         h(C('Badge'), { variant: 'warning' }, () => 'Warning'),
         h(C('Badge'), { variant: 'error' }, () => 'Error'),
-        h(C('Badge'), { variant: 'outline' }, () => 'Outline'),
+        h(C('Badge'), { variant: 'blue' }, () => 'Blue'),
+        h(C('Badge'), { variant: 'purple' }, () => 'Purple'),
       ]),
       row([
         h(C('Badge'), { size: 'sm' }, () => 'Small'),
         h(C('Badge'), { size: 'md' }, () => 'Medium'),
         h(C('Badge'), { size: 'lg' }, () => 'Large'),
-        h(C('Badge'), { dot: true, variant: 'success' }, () => 'Com dot'),
+        h(C('Badge'), { icon: 'dot', variant: 'success' }, () => 'Com dot'),
+        h(C('Badge'), { icon: 'close', variant: 'primary' }, () => 'Close'),
       ]),
     ], '16px'),
   }),
 
   breadcrumb: defineComponent({
-    render: () => h(C('Breadcrumb'), {
-      items: [
-        { label: 'Home', href: '#' },
-        { label: 'Eventos', href: '#' },
-        { label: 'Meu evento', href: '#' },
-        { label: 'Participantes' },
-      ],
-    }),
+    render: () => col([
+      h(C('Breadcrumb'), {
+        separator: 'slash',
+        items: [
+          { label: 'Home', href: '#' },
+          { label: 'Components', href: '#' },
+          { label: 'Breadcrumb' },
+        ],
+      }),
+      h(C('Breadcrumb'), {
+        separator: 'chevron',
+        maxItems: 3,
+        items: [
+          { label: 'Home', href: '#' },
+          { label: 'Docs', href: '#' },
+          { label: 'Guides', href: '#' },
+          { label: 'Components', href: '#' },
+          { label: 'Breadcrumb' },
+        ],
+      }),
+    ], '16px'),
   }),
 
   button: defineComponent({
@@ -168,6 +256,24 @@ export const componentDemos: Record<string, ReturnType<typeof defineComponent>> 
     ], '16px'),
   }),
 
+  'button-group': defineComponent({
+    render: () => col([
+      h(C('ButtonGroup'), {}, () => [
+        h(C('Button'), { hierarchy: 'outline' }, () => 'Archive'),
+        h(C('Button'), { hierarchy: 'outline' }, () => 'Report'),
+        h(C('Button'), { hierarchy: 'outline' }, () => 'Snooze'),
+      ]),
+      h(C('ButtonGroup'), { orientation: 'vertical' }, () => [
+        h(C('Button'), { hierarchy: 'outline', icon: 'only' }, () => '+'),
+        h(C('Button'), { hierarchy: 'outline', icon: 'only' }, () => '−'),
+      ]),
+      h(C('ButtonGroup'), { variant: 'secondary', size: 'sm' }, () => [
+        h(C('Button'), { hierarchy: 'secondary' }, () => 'Copy'),
+        h(C('Button'), { hierarchy: 'secondary' }, () => 'Paste'),
+      ]),
+    ], '16px'),
+  }),
+
   card: defineComponent({
     render: () => row([
       h(C('Card'), { title: 'Card simples', subtitle: 'Subtítulo do card', style: 'max-width:320px' }, () =>
@@ -176,33 +282,170 @@ export const componentDemos: Record<string, ReturnType<typeof defineComponent>> 
     ]),
   }),
 
+  'choice-option': defineComponent({
+    setup() {
+      const plan = ref('pro')
+      const plans = ref(['basic'])
+      const method = ref('pix')
+      return () => col([
+        h(C('ChoiceOption'), {
+          modelValue: plan.value,
+          'onUpdate:modelValue': (v: string) => { plan.value = v },
+          name: 'plan',
+          value: 'pro',
+          label: 'Plano Pro (default)',
+          description: 'Estilo legado',
+          style: 'max-width:360px',
+        }),
+        h(C('CheckboxGroupItem'), {
+          modelValue: plans.value,
+          'onUpdate:modelValue': (v: string[]) => { plans.value = v },
+          name: 'plans',
+          value: 'basic',
+          label: 'Plano básico R$10/mês',
+          description: 'Inclui até 10 usuários, 20GB de dados individuais e acesso a todos os recursos.',
+          style: 'max-width:480px',
+        }),
+        h(C('ChoiceOption'), {
+          modelValue: method.value,
+          'onUpdate:modelValue': (v: string) => { method.value = v },
+          name: 'payment',
+          value: 'pix',
+          icon: 'pix',
+          label: 'Pix',
+          style: 'max-width:360px',
+        }),
+        h(C('ChoiceOption'), {
+          modelValue: method.value,
+          'onUpdate:modelValue': (v: string) => { method.value = v },
+          name: 'payment',
+          value: 'credit',
+          icon: 'credit-card',
+          label: 'Cartão de crédito',
+          style: 'max-width:360px',
+        }),
+      ], '12px')
+    },
+  }),
+
+  'checkbox-group-item': defineComponent({
+    setup() {
+      const plans = ref(['basic'])
+      return () => col([
+        h(C('CheckboxGroupItem'), {
+          modelValue: plans.value,
+          'onUpdate:modelValue': (v: string[]) => { plans.value = v },
+          name: 'cgi',
+          value: 'basic',
+          label: 'Plano básico R$10/mês',
+          description: 'Inclui até 10 usuários, 20GB de dados individuais e acesso a todos os recursos.',
+          style: 'max-width:480px',
+        }),
+        h(C('CheckboxGroupItem'), {
+          modelValue: plans.value,
+          'onUpdate:modelValue': (v: string[]) => { plans.value = v },
+          name: 'cgi',
+          value: 'business',
+          label: 'Business R$20/mês',
+          description: 'Inclui até 20 usuários e 40GB de dados.',
+          style: 'max-width:480px',
+        }),
+      ], '12px')
+    },
+  }),
+
+  countdown: defineComponent({
+    setup() {
+      const plain = ref(125)
+      const badge = ref(899)
+      const ending = ref(9)
+      const text = ref(884)
+      return () => col([
+        h(C('Countdown'), {
+          modelValue: plain.value,
+          'onUpdate:modelValue': (v: number) => { plain.value = v },
+          auto: true,
+        }),
+        h(C('Countdown'), {
+          modelValue: badge.value,
+          'onUpdate:modelValue': (v: number) => { badge.value = v },
+          variant: 'badge',
+          auto: true,
+        }),
+        h(C('Countdown'), {
+          modelValue: ending.value,
+          'onUpdate:modelValue': (v: number) => { ending.value = v },
+          variant: 'badge',
+          auto: true,
+        }),
+        h(C('Countdown'), {
+          modelValue: text.value,
+          'onUpdate:modelValue': (v: number) => { text.value = v },
+          variant: 'text',
+          prefix: 'Expira em ',
+          hint: 'Se expirar, será necessário realizar uma nova inscrição.',
+          auto: true,
+          style: 'max-width:420px',
+        }),
+      ], '20px')
+    },
+  }),
+
   charts: defineComponent({
     render: () => col([
-      h(C('Chart'), { data: chartData, type: 'bar', height: 200 }),
-      h(C('Chart'), { data: chartData, type: 'line', height: 200 }),
+      h(C('Chart'), { data: chartData, type: 'bar', height: 200, yAxisLabel: 'Usuários', xAxisLabel: 'Mês' }),
+      h(C('Chart'), {
+        type: 'line',
+        legend: 'top',
+        categories: chartMonths,
+        series: chartSeries,
+        height: 200,
+        yAxisLabel: 'Usuários ativos',
+        xAxisLabel: 'Mês',
+      }),
+      row([
+        h(C('Chart'), { type: 'donut', data: pieData, legend: 'right', size: 'sm' }),
+        h(C('Chart'), { type: 'circle', value: 40, label: 'Ativos', size: 'sm' }),
+        h(C('Chart'), { type: 'progress', value: 40, progressVariant: 'trailing' }),
+      ]),
     ], '24px'),
   }),
 
   'checkbox-toggle': defineComponent({
-    render: () => col([
-      row([
-        h(C('Checkbox'), { modelValue: false }, () => 'Unchecked'),
-        h(C('Checkbox'), { modelValue: true }, () => 'Checked'),
-        h(C('Checkbox'), { disabled: true }, () => 'Disabled'),
-        h(C('Checkbox'), { size: 'sm' }, () => 'Small'),
-      ]),
-      row([
-        h(C('Switch'), { modelValue: false }),
-        h(C('Switch'), { modelValue: true }),
-        h(C('Switch'), { disabled: true }),
-        h(C('Switch'), { size: 'sm' }),
-      ]),
-      row([
-        h(C('Radio'), { name: 'demo', value: 'a', modelValue: 'a' }, () => 'Opção A'),
-        h(C('Radio'), { name: 'demo', value: 'b', modelValue: 'a' }, () => 'Opção B'),
-        h(C('Radio'), { name: 'demo', value: 'c', disabled: true }, () => 'Opção C'),
-      ]),
-    ], '20px'),
+    setup() {
+      const a = ref(true)
+      const b = ref(false)
+      const radio = ref('1')
+      return () => col([
+        row([
+          h(C('Checkbox'), { modelValue: a.value, 'onUpdate:modelValue': (v: boolean) => { a.value = v } }, () => 'Check 1'),
+          h(C('Checkbox'), { modelValue: b.value, 'onUpdate:modelValue': (v: boolean) => { b.value = v } }, () => 'Check 2'),
+          h(C('Checkbox'), { disabled: true }, () => 'Disabled'),
+          h(C('Checkbox'), { size: 'sm', modelValue: true }, () => 'Small'),
+        ]),
+        row([
+          h(C('Switch'), { modelValue: false }),
+          h(C('Switch'), { modelValue: true }),
+          h(C('Switch'), { disabled: true }),
+          h(C('Switch'), { size: 'sm' }),
+        ]),
+        row([
+          h(C('Radio'), {
+            name: 'demo',
+            value: '1',
+            modelValue: radio.value,
+            'onUpdate:modelValue': (v: string) => { radio.value = v },
+          }, () => 'Radio 1'),
+          h(C('Radio'), {
+            name: 'demo',
+            value: '2',
+            modelValue: radio.value,
+            'onUpdate:modelValue': (v: string) => { radio.value = v },
+          }, () => 'Radio 2'),
+          h(C('Radio'), { name: 'demo', value: 'c', disabled: true }, () => 'Disabled'),
+        ]),
+      ], '20px')
+    },
   }),
 
   dialog: defineComponent({
@@ -221,17 +464,88 @@ export const componentDemos: Record<string, ReturnType<typeof defineComponent>> 
   }),
 
   dropdown: defineComponent({
-    render: () => h(C('Dropdown'), {
-      items: dropdownItems,
-      style: 'display:inline-block',
-    }),
+    render: () => row([
+      h(C('Dropdown'), {
+        items: dropdownItems,
+        style: 'display:inline-block',
+      }),
+      h(C('Dropdown'), {
+        items: [
+          { section: true, label: 'South America' },
+          { label: 'Brasil', value: 'br' },
+          { label: 'Argentina', value: 'ar' },
+          { label: 'Chile', value: 'cl' },
+          { label: 'Uruguai', value: 'uy' },
+          { section: true, label: 'Europe' },
+          { label: 'Alemanha', value: 'de' },
+          { label: 'França', value: 'fr' },
+          { label: 'Itália', value: 'it' },
+        ],
+        maxHeight: '180px',
+        style: 'display:inline-block',
+      }),
+    ], '16px'),
+  }),
+
+  'date-picker': defineComponent({
+    setup() {
+      const range = ref({ start: '2025-01-06', end: '2025-01-13' })
+      return () => h(C('DatePicker'), {
+        modelValue: range.value,
+        'onUpdate:modelValue': (v: { start: string | null, end: string | null }) => { range.value = v },
+        mode: 'range',
+      })
+    },
   }),
 
   empty: defineComponent({
     render: () => col([
-      h(C('Empty'), { size: 'md' }),
-      h(C('Empty'), { size: 'sm', title: 'Lista vazia', description: 'Adicione o primeiro item.', hideActions: true }),
+      h(C('Empty'), {
+        title: 'No Projects Yet',
+        description: "You haven't created any projects yet.",
+        primaryLabel: 'Create Project',
+        secondaryLabel: 'Import Project',
+        linkLabel: 'Learn More',
+      }),
+      h(C('Empty'), {
+        variant: 'outline',
+        title: 'Cloud Storage Empty',
+        description: 'Upload files to your cloud storage.',
+        primaryLabel: '',
+        secondaryLabel: 'Upload Files',
+      }),
+      h(C('Empty'), {
+        variant: 'muted',
+        title: 'No Notifications',
+        description: "You're all caught up.",
+        primaryLabel: '',
+        secondaryLabel: 'Refresh',
+      }),
     ], '24px'),
+  }),
+
+  'file-dropzone': defineComponent({
+    render: () => row([
+      h(C('FileDropzone')),
+      h(C('FileDropzone'), { active: true }),
+    ], '16px'),
+  }),
+
+  'file-upload': defineComponent({
+    render: () => row([
+      h(C('FileUpload'), {
+        status: 'uploading',
+        fileName: 'Downloading...',
+        meta: '129 MB / 1000 MB',
+        progress: 45,
+        cancelLabel: 'Cancel',
+      }),
+      h(C('FileUpload'), {
+        status: 'complete',
+        fileName: 'documento.docx',
+        meta: '129 MB / 1000 MB',
+      }),
+    ], '16px'),
   }),
 
   input: defineComponent({
@@ -253,10 +567,19 @@ export const componentDemos: Record<string, ReturnType<typeof defineComponent>> 
         h(C('Modal'), {
           open: open.value,
           'onUpdate:open': (v: boolean) => { open.value = v },
-          title: 'Modal de exemplo',
-          description: 'Conteúdo do modal com overlay.',
+          title: 'Blog post published',
+          description: 'This blog post has been published. Team members will be able to edit this post.',
+          size: 'sm',
+          layout: 'centered',
           featuredIcon: true,
-        }, () => h('p', { style: 'margin:0;color:#737373' }, 'Slot para conteúdo customizado.')),
+          actions: 'stretch',
+          showClose: false,
+        }, {
+          footer: () => [
+            h(C('Button'), { hierarchy: 'outline', onClick: () => { open.value = false } }, () => 'Cancel'),
+            h(C('Button'), { hierarchy: 'primary', onClick: () => { open.value = false } }, () => 'Confirm'),
+          ],
+        }),
       ])
     },
   }),
@@ -275,42 +598,68 @@ export const componentDemos: Record<string, ReturnType<typeof defineComponent>> 
     ], '16px'),
   }),
 
+  menubar: defineComponent({
+    render: () => h('div', { style: 'min-height:260px;padding:8px' }, [
+      h(C('Menubar'), { items: menubarItems, defaultOpen: 'File' }),
+    ]),
+  }),
+
+  'navigation-menu': defineComponent({
+    render: () => h('div', { style: 'min-height:360px;padding:8px' }, [
+      h(C('NavigationMenu'), { items: navigationMenuItems, defaultOpen: 'Components' }),
+    ]),
+  }),
+
   pagination: defineComponent({
     setup() {
       const page = ref(3)
+      const slide = ref(1)
       return () => col([
         h(C('Pagination'), {
           page: page.value,
           totalPages: 10,
           'onUpdate:page': (p: number) => { page.value = p },
         }),
-        h('p', { style: 'margin:0;font-size:12px;color:#737373' }, `Página atual: ${page.value}`),
-      ])
+        h(C('Pagination'), {
+          page: page.value,
+          totalPages: 5,
+          variant: 'card',
+          'onUpdate:page': (p: number) => { page.value = p },
+        }),
+        h(C('Pagination'), {
+          page: slide.value,
+          totalPages: 3,
+          variant: 'dots',
+          theme: 'primary',
+          framed: true,
+          'onUpdate:page': (p: number) => { slide.value = p },
+        }),
+        h('p', { style: 'margin:0;font-size:12px;color:#737373' }, `Página: ${page.value} · Slide: ${slide.value}`),
+      ], '16px')
     },
-  }),
-
-  sidebar: defineComponent({
-    render: () => h('div', { style: 'display:flex;height:480px;border:1px solid var(--doity-color-border-default);border-radius:8px;overflow:hidden' }, [
-      h(C('Sidebar'), {
-        roles: sidebarRoles,
-        activeRole: 'organizer',
-        items: sidebarItems,
-        showCta: true,
-        profileCard: { title: 'Perfil 80%', subtitle: 'Complete seu cadastro', progress: 80, progressLabel: '80% concluído' },
-      }),
-      h('div', { style: 'flex:1;padding:24px;background:var(--doity-color-background-secondary)' }, 'Área de conteúdo'),
-    ]),
   }),
 
   sonner: defineComponent({
     setup() {
-      const { success, error, warning, info } = useDoityToast()
+      const { toast, success, error, warning, info, loading, dismissAll } = useDoityToast()
       return () => col([
         row([
-          h(C('Button'), { size: 'sm', onClick: () => success('Salvo com sucesso!') }, () => 'Success'),
-          h(C('Button'), { size: 'sm', hierarchy: 'outline', onClick: () => error('Erro ao salvar') }, () => 'Error'),
-          h(C('Button'), { size: 'sm', hierarchy: 'outline', onClick: () => warning('Verifique os dados') }, () => 'Warning'),
-          h(C('Button'), { size: 'sm', hierarchy: 'outline', onClick: () => info('Nova atualização disponível') }, () => 'Info'),
+          h(C('Button'), { size: 'sm', hierarchy: 'outline', onClick: () => toast('Event has been created') }, () => 'Default'),
+          h(C('Button'), { size: 'sm', onClick: () => success('Event has been created') }, () => 'Success'),
+          h(C('Button'), { size: 'sm', hierarchy: 'outline', onClick: () => info('Be at the area 10 minutes before the event') }, () => 'Info'),
+          h(C('Button'), { size: 'sm', hierarchy: 'outline', onClick: () => warning('Event start time cannot be earlier than 8am') }, () => 'Warning'),
+          h(C('Button'), { size: 'sm', hierarchy: 'outline', onClick: () => error('Event has not been created') }, () => 'Error'),
+          h(C('Button'), { size: 'sm', hierarchy: 'outline', onClick: () => loading() }, () => 'Loading'),
+          h(C('Button'), {
+            size: 'sm',
+            hierarchy: 'outline',
+            onClick: () => toast({
+              title: 'Event has been created',
+              description: 'Sunday, December 03, 2023 at 9:00 AM',
+              action: { label: 'Undo' },
+            }),
+          }, () => 'Ação'),
+          h(C('Button'), { size: 'sm', hierarchy: 'ghost', onClick: () => dismissAll() }, () => 'Limpar'),
         ]),
         h(C('Sonner')),
       ])
@@ -319,14 +668,34 @@ export const componentDemos: Record<string, ReturnType<typeof defineComponent>> 
 
   spinner: defineComponent({
     render: () => col([
-      row(['sm', 'md', 'lg'].map(s => h(C('Spinner'), { size: s }))),
+      row(['xs', 'sm', 'md', 'lg'].map(s => h(C('Spinner'), { size: s }))),
       row([
+        h(C('Spinner'), { color: 'red' }),
+        h(C('Spinner'), { color: 'green' }),
+        h(C('Spinner'), { color: 'blue' }),
+        h(C('Spinner'), { color: 'yellow' }),
         h(C('Spinner'), { color: 'brand' }),
-        h(C('Spinner'), { color: 'success' }),
-        h(C('Spinner'), { color: 'warning' }),
-        h(C('Spinner'), { color: 'error' }),
+      ]),
+      row([
+        h(C('Spinner'), { type: 'spokes', size: 'sm' }),
+        h(C('Spinner'), { type: 'spokes', size: 'md' }),
+        h(C('Spinner'), { type: 'spokes', size: 'lg' }),
       ]),
     ], '16px'),
+  }),
+
+  'star-rating': defineComponent({
+    setup() {
+      const rating = ref(0)
+      return () => col([
+        h(C('StarRating'), {
+          modelValue: rating.value,
+          'onUpdate:modelValue': (v: number) => { rating.value = v },
+        }),
+        h('p', { style: 'margin:0;color:#737373;font:14px/20px system-ui' }, `Nota: ${rating.value}`),
+        h(C('StarRating'), { demo: true }),
+      ], '16px')
+    },
   }),
 
   table: defineComponent({
@@ -335,20 +704,27 @@ export const componentDemos: Record<string, ReturnType<typeof defineComponent>> 
 
   tabs: defineComponent({
     setup() {
-      const tab = ref('tab1')
+      const tab = ref('ingressos')
       return () => col([
         h(C('Tabs'), {
           modelValue: tab.value,
           'onUpdate:modelValue': (v: string) => { tab.value = v },
           items: [
-            { label: 'Geral', value: 'tab1' },
-            { label: 'Configurações', value: 'tab2' },
-            { label: 'Desabilitado', value: 'tab3', disabled: true },
+            { label: 'Ingressos', value: 'ingressos' },
+            { label: 'Eventos', value: 'eventos' },
+            { label: 'Cursos', value: 'cursos' },
+            { label: 'Trabalhos', value: 'trabalhos' },
+            { label: 'Minha Conta', value: 'conta' },
+            { label: 'Ajuda', value: 'ajuda' },
           ],
         }, {
           default: () => [
-            h(C('TabPanel'), { value: 'tab1' }, () => 'Conteúdo da aba Geral'),
-            h(C('TabPanel'), { value: 'tab2' }, () => 'Conteúdo da aba Configurações'),
+            h(C('TabPanel'), { value: 'ingressos' }, () => 'Conteúdo de Ingressos'),
+            h(C('TabPanel'), { value: 'eventos' }, () => 'Conteúdo de Eventos'),
+            h(C('TabPanel'), { value: 'cursos' }, () => 'Conteúdo de Cursos'),
+            h(C('TabPanel'), { value: 'trabalhos' }, () => 'Conteúdo de Trabalhos'),
+            h(C('TabPanel'), { value: 'conta' }, () => 'Conteúdo de Minha Conta'),
+            h(C('TabPanel'), { value: 'ajuda' }, () => 'Conteúdo de Ajuda'),
           ],
         }),
       ])

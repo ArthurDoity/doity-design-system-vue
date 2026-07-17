@@ -3,6 +3,7 @@ import { defineComponent, h } from 'vue'
 import '../src/runtime/assets/css/tokens.css'
 import '../src/runtime/assets/css/base.css'
 import '../src/runtime/assets/css/components.css'
+import './preview.css'
 
 const NuxtLink = defineComponent({
   name: 'NuxtLink',
@@ -37,6 +38,26 @@ const preview = {
       },
     },
     layout: 'padded',
+    options: {
+      // storySort deve ser 100% literal (sem variáveis)
+      storySort: {
+        order: [
+          'Introdução',
+          ['Como usar'],
+          'Components',
+          [
+            'Actions',
+            'Forms',
+            'Feedback',
+            'Navigation',
+            'Data',
+            'Overlay',
+            'Upload',
+            'Layout',
+          ],
+        ],
+      },
+    },
   },
   tags: ['autodocs'],
 }

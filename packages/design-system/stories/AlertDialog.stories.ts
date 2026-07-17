@@ -5,9 +5,8 @@ import Button from '../src/runtime/components/Button.vue'
 import { doityStoryMeta, storyUsage } from './helpers/doityStoryMeta'
 
 const meta = {
-  ...doityStoryMeta('AlertDialog', AlertDialog, {
-  title: 'Components/Alert Dialog',
-}),
+  ...doityStoryMeta('AlertDialog', AlertDialog),
+  title: 'Components/Feedback/Alert Dialog',
 } satisfies Meta<typeof AlertDialog>
 
 export default meta
@@ -17,8 +16,9 @@ export const Default: Story = {
   parameters: storyUsage(`<DoityButton hierarchy="primary" @click="open = true">Abrir diálogo</DoityButton>
 <DoityAlertDialog
   v-model:open="open"
-  title="Confirmar ação"
-  description="Deseja continuar com esta operação?"
+  title="Você tem certeza absoluta?"
+  description="Esta ação não pode ser desfeita. Isso excluirá permanentemente sua conta e removerá seus dados de nossos servidores."
+  cancel-label="Cancelar"
   confirm-label="Continuar"
 />`),
   render: () => ({
@@ -32,8 +32,9 @@ export const Default: Story = {
         <Button hierarchy="primary" @click="open = true">Abrir diálogo</Button>
         <AlertDialog
           v-model:open="open"
-          title="Confirmar ação"
-          description="Deseja continuar com esta operação?"
+          title="Você tem certeza absoluta?"
+          description="Esta ação não pode ser desfeita. Isso excluirá permanentemente sua conta e removerá seus dados de nossos servidores."
+          cancel-label="Cancelar"
           confirm-label="Continuar"
         />
       </div>
@@ -42,12 +43,12 @@ export const Default: Story = {
 }
 
 export const Destructive: Story = {
-  parameters: storyUsage(`<DoityButton hierarchy="outline" destructive @click="open = true">Excluir item</DoityButton>
+  parameters: storyUsage(`<DoityButton hierarchy="outline" destructive @click="open = true">Excluir conta</DoityButton>
 <DoityAlertDialog
   v-model:open="open"
-  title="Excluir item?"
-  description="Esta ação não pode ser desfeita."
-  confirm-label="Excluir"
+  title="Você tem certeza absoluta?"
+  description="Esta ação não pode ser desfeita. Isso excluirá permanentemente sua conta e removerá seus dados de nossos servidores."
+  confirm-label="Continuar"
   destructive
 />`),
   render: () => ({
@@ -58,12 +59,12 @@ export const Destructive: Story = {
     },
     template: `
       <div>
-        <Button hierarchy="outline" destructive @click="open = true">Excluir item</Button>
+        <Button hierarchy="outline" destructive @click="open = true">Excluir conta</Button>
         <AlertDialog
           v-model:open="open"
-          title="Excluir item?"
-          description="Esta ação não pode ser desfeita."
-          confirm-label="Excluir"
+          title="Você tem certeza absoluta?"
+          description="Esta ação não pode ser desfeita. Isso excluirá permanentemente sua conta e removerá seus dados de nossos servidores."
+          confirm-label="Continuar"
           destructive
         />
       </div>

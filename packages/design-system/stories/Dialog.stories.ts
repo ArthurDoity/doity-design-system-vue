@@ -6,7 +6,12 @@ import Input from '../src/runtime/components/Input.vue'
 import { doityStoryMeta, storyUsage } from './helpers/doityStoryMeta'
 
 const meta = {
-  ...doityStoryMeta('Dialog', Dialog),
+  ...doityStoryMeta('Dialog', Dialog, {
+    argTypes: {
+      size: { control: 'select', options: ['sm', 'md', 'lg'] },
+    },
+  }),
+  title: 'Components/Overlay/Dialog',
 } satisfies Meta
 
 export default meta
@@ -14,7 +19,12 @@ type Story = StoryObj
 
 export const Default: Story = {
   parameters: storyUsage(`<DoityButton hierarchy="primary" @click="open = true">Abrir dialog</DoityButton>
-<DoityDialog v-model:open="open" title="Editar perfil" description="Atualize suas informações.">
+<DoityDialog
+  v-model:open="open"
+  title="Editar perfil"
+  description="Atualize suas informações."
+  @save="salvar"
+>
   <DoityInput label="Nome" placeholder="Seu nome" />
 </DoityDialog>`),
   render: () => ({
@@ -26,7 +36,12 @@ export const Default: Story = {
     template: `
       <div>
         <Button hierarchy="primary" @click="open = true">Abrir dialog</Button>
-        <Dialog v-model:open="open" title="Editar perfil" description="Atualize suas informações.">
+        <Dialog
+          v-model:open="open"
+          title="Editar perfil"
+          description="Atualize suas informações."
+          @save="open = false"
+        >
           <Input label="Nome" placeholder="Seu nome" style="width:100%" />
         </Dialog>
       </div>
@@ -35,23 +50,36 @@ export const Default: Story = {
 }
 
 export const Sizes: Story = {
-  parameters: storyUsage(`<DoityButton hierarchy="outline" @click="openSm = true">Small</DoityButton>
-<DoityButton hierarchy="outline" @click="openLg = true">Large</DoityButton>
-<DoityDialog v-model:open="openSm" title="Dialog SM" size="sm" />
-<DoityDialog v-model:open="openLg" title="Dialog LG" size="lg" description="Dialog maior para mais conteúdo." />`),
+  parameters: storyUsage(`<DoityDialog v-model:open="openSm" title="Dialog SM" size="sm" />
+<DoityDialog v-model:open="openLg" title="Dialog LG" size="lg" description="…" />`),
   render: () => ({
     components: { Dialog, Button },
     setup() {
       const openSm = ref(false)
+      const openMd = ref(false)
       const openLg = ref(false)
-      return { openSm, openLg }
+      return { openSm, openMd, openLg }
     },
     template: `
-      <div style="display:flex;gap:12px">
-        <Button hierarchy="outline" @click="openSm = true">Small</Button>
-        <Button hierarchy="outline" @click="openLg = true">Large</Button>
-        <Dialog v-model:open="openSm" title="Dialog SM" size="sm" />
-        <Dialog v-model:open="openLg" title="Dialog LG" size="lg" description="Dialog maior para mais conteúdo." />
+      <div style="display:flex;gap:12px;flex-wrap:wrap">
+        <Button hierarchy="outline" @click="openSm = true">SM · 350</Button>
+        <Button hierarchy="outline" @click="openMd = true">MD · 408</Button>
+        <Button hierarchy="outline" @click="openLg = true">LG · 512</Button>
+        <Dialog v-model:open="openSm" title="Dialog SM" size="sm" @save="openSm = false" />
+        <Dialog
+          v-model:open="openMd"
+          title="Dialog MD"
+          size="md"
+          description="Tamanho padrão para formulários curtos."
+          @save="openMd = false"
+        />
+        <Dialog
+          v-model:open="openLg"
+          title="Dialog LG"
+          size="lg"
+          description="Dialog maior para mais conteúdo."
+          @save="openLg = false"
+        />
       </div>
     `,
   }),
