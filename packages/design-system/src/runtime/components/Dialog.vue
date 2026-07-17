@@ -53,7 +53,9 @@ function onSave() {
     actions="end"
     @close="onClose"
   >
-    <slot />
+    <template v-if="$slots.default" #default>
+      <slot />
+    </template>
 
     <template #footer>
       <slot name="footer">

@@ -138,7 +138,7 @@ packages/design-system/
 
 ## Componentes
 
-Accordion, Alert, Alert Dialog, Avatar, Badge, Breadcrumb, Button, Card, Charts, Checkbox, Dialog, Dropdown, Empty, Input, Modal, Navbar, Pagination, Sidebar, Sonner, Spinner, Switch, Table, Tabs, Textarea, Tooltip
+Accordion, Alert, Alert Dialog, Avatar, Badge, Breadcrumb, Button, Card, Charts, Checkbox, Dialog, Dropdown, Empty, File Dropzone, File Upload, Input, Modal, Navbar, Pagination, Sonner, Spinner, Switch, Table, Tabs, Textarea, Tooltip
 
 ## Stack
 

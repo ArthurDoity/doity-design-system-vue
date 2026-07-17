@@ -52,7 +52,10 @@ function onModalClose() {
     actions="end"
     @close="onModalClose"
   >
-    <slot />
+    <!-- Só encaminha body se houver conteúdo — evita gap vazio entre texto e botões -->
+    <template v-if="$slots.default" #default>
+      <slot />
+    </template>
 
     <template #footer>
       <Button hierarchy="outline" size="md" @click="onCancel">

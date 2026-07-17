@@ -99,7 +99,7 @@ Na primeira publicação, confirme o nome `@arthurdoity/design-system` e a vers�
 O workflow `.github/workflows/publish-package.yml` publica quando você cria um **Release** no GitHub:
 
 1. Vá em **Releases → Draft a new release**
-2. Tag: `v0.1.0` (deve bater com `"version"` no `package.json`)
+2. Tag: `v0.2.0` (deve bater com `"version"` no `package.json`)
 3. Publique o release → o workflow roda `pnpm publish`
 
 Também pode disparar manualmente em **Actions → Publish @arthurdoity/design-system → Run workflow**.
@@ -109,12 +109,12 @@ Também pode disparar manualmente em **Actions → Publish @arthurdoity/design-s
 Antes de cada release:
 
 ```bash
-# Edite packages/design-system/package.json → "version": "0.1.1"
+# Edite packages/design-system/package.json → "version": "0.2.1"
 pnpm build
-git commit -am "chore: bump version to 0.1.1"
-git tag v0.1.1
+git commit -am "chore: bump version to 0.2.1"
+git tag v0.2.1
 git push && git push --tags
-# Crie o Release no GitHub para a tag v0.1.1
+# Crie o Release no GitHub para a tag v0.2.1
 ```
 
 ---
