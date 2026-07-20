@@ -319,10 +319,7 @@ function onChange() {
                   stroke-linejoin="round"
                 />
               </svg>
-              <span
-                v-else
-                class="doity-choice-option__dot"
-              />
+              <!-- radio: dot via radial-gradient no CSS (sem nó + scale) -->
             </slot>
           </span>
         </slot>
@@ -332,6 +329,18 @@ function onChange() {
 </template>
 
 <style scoped>
+@property --doity-choice-radio-dot-r {
+  syntax: '<length>';
+  inherits: false;
+  initial-value: 0px;
+}
+
+@property --doity-choice-radio-dot {
+  syntax: '<color>';
+  inherits: false;
+  initial-value: transparent;
+}
+
 .doity-choice-option {
   --doity-choice-bg: var(--doity-color-background-primary, #fff);
   --doity-choice-border: var(--doity-color-border-default, #e5e5e5);
@@ -553,9 +562,29 @@ function onChange() {
 }
 
 .doity-choice-option__indicator--radio {
-  border-radius: 999px;
-  box-shadow: var(--doity-shadow-xs);
+  --doity-choice-radio-dot-r: 0px;
+  --doity-choice-radio-dot: transparent;
+  --doity-choice-radio-ring: var(--doity-color-border-strong, #d4d4d4);
+  background-clip: padding-box;
+  background-color: var(--doity-color-background-primary, #fff);
+  background-image: radial-gradient(
+    circle at center,
+    var(--doity-choice-radio-dot) 0,
+    var(--doity-choice-radio-dot) var(--doity-choice-radio-dot-r),
+    transparent calc(var(--doity-choice-radio-dot-r) + 0.5px)
+  );
+  background-position: center;
+  background-repeat: no-repeat;
+  border: none;
+  border-radius: 50%;
+  box-shadow: inset 0 0 0 1px var(--doity-choice-radio-ring);
   margin-top: 2px;
+  transition:
+    background-color 0.28s cubic-bezier(0.25, 0.1, 0.25, 1),
+    box-shadow 0.28s cubic-bezier(0.25, 0.1, 0.25, 1),
+    --doity-choice-radio-dot-r 0.28s cubic-bezier(0.22, 1, 0.36, 1),
+    --doity-choice-radio-dot 0.2s ease,
+    --doity-choice-radio-ring 0.2s ease;
 }
 
 .doity-choice-option__indicator--check-circle {
@@ -574,27 +603,20 @@ function onChange() {
   width: 10px;
 }
 
-.doity-choice-option__dot {
-  background: var(--doity-color-brand-500, #ff2b34);
-  border-radius: 999px;
-  display: block;
-  height: 40%;
-  opacity: 0;
-  transform: scale(0);
-  transition:
-    opacity 0.2s cubic-bezier(0.25, 0.1, 0.25, 1),
-    transform 0.38s cubic-bezier(0.34, 1.7, 0.42, 1);
-  width: 40%;
-}
-
 .doity-choice-option--selected .doity-choice-option__indicator--checkbox {
   background: var(--doity-color-background-brand, #fff1f2);
   border-color: var(--doity-color-border-brand, #ff9da1);
 }
 
 .doity-choice-option--selected .doity-choice-option__indicator--radio {
-  background: var(--doity-color-background-brand, #fff1f2);
-  border-color: var(--doity-color-border-focus, #ff2b34);
+  --doity-choice-radio-dot: var(--doity-color-brand-500, #ff2b34);
+  --doity-choice-radio-dot-r: 3px;
+  --doity-choice-radio-ring: var(--doity-color-border-focus, #ff2b34);
+  background-color: var(--doity-color-background-brand, #fff1f2);
+}
+
+.doity-choice-option--md.doity-choice-option--selected .doity-choice-option__indicator--radio {
+  --doity-choice-radio-dot-r: 4px;
 }
 
 .doity-choice-option--selected .doity-choice-option__indicator--check-circle {
@@ -602,8 +624,7 @@ function onChange() {
   border-color: var(--doity-color-border-brand, #ff9da1);
 }
 
-.doity-choice-option--selected .doity-choice-option__indicator svg,
-.doity-choice-option--selected .doity-choice-option__dot {
+.doity-choice-option--selected .doity-choice-option__indicator svg {
   opacity: 1;
   transform: scale(1);
 }
@@ -761,7 +782,6 @@ function onChange() {
   .doity-choice-option__card,
   .doity-choice-option__indicator,
   .doity-choice-option__indicator svg,
-  .doity-choice-option__dot,
   .doity-choice-option__icon,
   .doity-choice-option__featured-icon {
     transition: none;

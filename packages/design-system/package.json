@@ -1,6 +1,6 @@
 {
   "name": "@arthurdoity/design-system",
-  "version": "0.2.0",
+  "version": "0.2.1",
   "description": "Doity Design System — pacote Vue/Nuxt 4 com componentes, tokens e documentação",
   "type": "module",
   "license": "MIT",

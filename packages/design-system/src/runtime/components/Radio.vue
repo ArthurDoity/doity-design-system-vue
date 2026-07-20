@@ -46,9 +46,13 @@ function onChange() {
       :disabled="props.disabled"
       @change="onChange"
     >
-    <span class="doity-radio__circle" aria-hidden="true">
-      <span class="doity-radio__dot" />
-    </span>
+    <!--
+      Sem elemento interno para o dot.
+      Filho + transform:scale + flex + zoom/DPR (ex. Windows 125%)
+      gera oval e offset — bug conhecido (Chromium/shadcn/WordPress).
+      O indicador é um radial-gradient no próprio círculo.
+    -->
+    <span class="doity-radio__circle" aria-hidden="true" />
     <span
       v-if="hasText"
       class="doity-radio__content"
@@ -64,6 +68,25 @@ function onChange() {
 </template>
 
 <style scoped>
+/*
+ * Dot = radial-gradient no anel (sem filho + scale → evita oval/DPR).
+ * Animação monotônica do raio (sem spring/overshoot).
+ * Press usa scale leve (0.94) no anel inteiro — sem filho, sem oval/DPR.
+ * Anel via box-shadow inset (1px fixo) — border+drop-shadow mudava o
+ * peso visual entre estados/itens (selecionado parecia mais fino).
+ */
+@property --doity-radio-dot-r {
+  syntax: '<length>';
+  inherits: false;
+  initial-value: 0px;
+}
+
+@property --doity-radio-dot-color {
+  syntax: '<color>';
+  inherits: false;
+  initial-value: transparent;
+}
+
 .doity-radio {
   align-items: center;
   color: var(--doity-color-text-primary);
@@ -95,24 +118,36 @@ function onChange() {
 }
 
 .doity-radio__circle {
-  align-items: center;
-  background: var(--doity-color-background-primary, #fff);
-  border: 1px solid var(--doity-color-border-strong, #d4d4d4);
-  border-radius: 999px;
-  box-shadow: var(--doity-shadow-xs);
+  --doity-radio-dot-r: 0px;
+  --doity-radio-dot-color: transparent;
+  --doity-radio-ring: var(--doity-color-border-strong, #d4d4d4);
+  background-color: var(--doity-color-background-primary, #fff);
+  background-image: radial-gradient(
+    circle at center,
+    var(--doity-radio-dot-color) 0,
+    var(--doity-radio-dot-color) var(--doity-radio-dot-r),
+    transparent calc(var(--doity-radio-dot-r) + 0.5px)
+  );
+  background-clip: padding-box;
+  background-position: center;
+  background-repeat: no-repeat;
+  border: none;
+  border-radius: 50%;
+  box-shadow: inset 0 0 0 1px var(--doity-radio-ring);
   box-sizing: border-box;
-  display: inline-flex;
+  display: block;
   flex-shrink: 0;
-  height: var(--doity-component-radio-size-md);
-  justify-content: center;
-  position: relative;
+  height: var(--doity-component-radio-size-md, 16px);
   transform: scale(1);
+  transform-origin: center center;
   transition:
-    background-color 0.22s cubic-bezier(0.25, 0.1, 0.25, 1),
-    border-color 0.22s cubic-bezier(0.25, 0.1, 0.25, 1),
-    box-shadow 0.22s cubic-bezier(0.25, 0.1, 0.25, 1),
-    transform 0.45s cubic-bezier(0.34, 1.7, 0.42, 1);
-  width: var(--doity-component-radio-size-md);
+    background-color 0.2s ease,
+    box-shadow 0.2s ease,
+    transform 0.2s cubic-bezier(0.22, 1, 0.36, 1),
+    --doity-radio-dot-r 0.28s cubic-bezier(0.22, 1, 0.36, 1),
+    --doity-radio-dot-color 0.2s ease,
+    --doity-radio-ring 0.2s ease;
+  width: var(--doity-component-radio-size-md, 16px);
 }
 
 .doity-radio--with-hint .doity-radio__circle {
@@ -120,74 +155,74 @@ function onChange() {
 }
 
 .doity-radio:hover:not(.doity-radio--disabled):not(.doity-radio--checked) .doity-radio__circle {
-  background: var(--doity-color-background-brand, #fff1f2);
-  border-color: var(--doity-color-border-focus, #ff2b34);
+  --doity-radio-ring: var(--doity-color-border-focus, #ff2b34);
+  background-color: var(--doity-color-background-brand, #fff1f2);
 }
 
+/* Press no anel (sem filho) — scale leve; o dot já não tem overshoot */
 .doity-radio:active:not(.doity-radio--disabled) .doity-radio__circle {
-  transform: scale(0.82);
+  --doity-radio-ring: var(--doity-color-border-focus, #ff2b34);
+  background-color: var(--doity-color-background-brand, #fff1f2);
+  transform: scale(0.94);
   transition:
-    background-color 0.12s cubic-bezier(0.33, 0, 0.67, 1),
-    border-color 0.12s cubic-bezier(0.33, 0, 0.67, 1),
-    transform 0.12s cubic-bezier(0.33, 0, 0.67, 1);
+    background-color 0.1s ease,
+    box-shadow 0.1s ease,
+    transform 0.1s cubic-bezier(0.33, 0, 0.67, 1),
+    --doity-radio-dot-r 0.28s cubic-bezier(0.22, 1, 0.36, 1),
+    --doity-radio-dot-color 0.2s ease,
+    --doity-radio-ring 0.1s ease;
 }
 
-.doity-radio__input:checked + .doity-radio__circle {
-  background: var(--doity-color-background-brand, #fff1f2);
-  border-color: var(--doity-color-border-focus, #ff2b34);
+.doity-radio__input:checked + .doity-radio__circle,
+.doity-radio--checked .doity-radio__circle {
+  --doity-radio-dot-color: var(--doity-color-brand-500, #ff2b34);
+  --doity-radio-dot-r: 3px;
+  --doity-radio-ring: var(--doity-color-border-focus, #ff2b34);
+  background-color: var(--doity-color-background-brand, #fff1f2);
 }
 
-.doity-radio__dot {
-  background: var(--doity-color-brand-500, #ff2b34);
-  border-radius: 999px;
-  display: block;
-  height: 40%;
-  opacity: 0;
-  transform: scale(0);
-  transition:
-    opacity 0.2s cubic-bezier(0.25, 0.1, 0.25, 1),
-    transform 0.38s cubic-bezier(0.34, 1.7, 0.42, 1);
-  width: 40%;
+.doity-radio--sm .doity-radio__input:checked + .doity-radio__circle,
+.doity-radio--sm.doity-radio--checked .doity-radio__circle {
+  --doity-radio-dot-r: 2px;
 }
 
-.doity-radio__input:checked + .doity-radio__circle .doity-radio__dot {
-  opacity: 1;
-  transform: scale(1);
+.doity-radio--lg .doity-radio__input:checked + .doity-radio__circle,
+.doity-radio--lg.doity-radio--checked .doity-radio__circle {
+  --doity-radio-dot-r: 4px;
 }
 
 .doity-radio__input:focus-visible + .doity-radio__circle {
-  box-shadow: var(--doity-shadow-focus);
+  box-shadow:
+    inset 0 0 0 1px var(--doity-radio-ring),
+    var(--doity-shadow-focus, 0 0 0 3px rgba(161, 161, 161, 0.5));
   outline: none;
 }
 
 .doity-radio--disabled .doity-radio__circle {
-  background: var(--doity-color-background-secondary);
-  border-color: var(--doity-color-border-disabled);
-  box-shadow: none;
+  --doity-radio-ring: var(--doity-color-border-disabled);
+  background-color: var(--doity-color-background-secondary);
 }
 
+.doity-radio--disabled.doity-radio--checked .doity-radio__circle,
 .doity-radio--disabled .doity-radio__input:checked + .doity-radio__circle {
-  background: var(--doity-color-background-secondary);
-  border-color: var(--doity-color-border-disabled);
-}
-
-.doity-radio--disabled .doity-radio__dot {
-  background: var(--doity-color-text-disabled);
+  --doity-radio-dot-color: var(--doity-color-text-disabled);
+  --doity-radio-ring: var(--doity-color-border-disabled);
+  background-color: var(--doity-color-background-secondary);
 }
 
 .doity-radio--sm .doity-radio__circle {
-  height: var(--doity-component-radio-size-sm);
-  width: var(--doity-component-radio-size-sm);
+  height: var(--doity-component-radio-size-sm, 12px);
+  width: var(--doity-component-radio-size-sm, 12px);
 }
 
 .doity-radio--md .doity-radio__circle {
-  height: var(--doity-component-radio-size-md);
-  width: var(--doity-component-radio-size-md);
+  height: var(--doity-component-radio-size-md, 16px);
+  width: var(--doity-component-radio-size-md, 16px);
 }
 
 .doity-radio--lg .doity-radio__circle {
-  height: var(--doity-component-radio-size-lg);
-  width: var(--doity-component-radio-size-lg);
+  height: var(--doity-component-radio-size-lg, 20px);
+  width: var(--doity-component-radio-size-lg, 20px);
 }
 
 .doity-radio__content {
@@ -221,8 +256,7 @@ function onChange() {
 }
 
 @media (prefers-reduced-motion: reduce) {
-  .doity-radio__circle,
-  .doity-radio__dot {
+  .doity-radio__circle {
     transition: none;
   }
 

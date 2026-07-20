@@ -91,7 +91,7 @@ function onInput(event) {
   background: var(--doity-color-background-primary, #fff);
   border: 1px solid var(--doity-color-border-default, #e5e5e5);
   border-radius: var(--doity-radius-md, 8px);
-  box-shadow: var(--doity-shadow-xs, 0 1px 2px rgba(0, 0, 0, 0.1));
+  box-shadow: none;
   box-sizing: border-box;
   color: var(--doity-color-text-primary, #0a0a0a);
   font-family: inherit;
@@ -99,9 +99,7 @@ function onInput(event) {
   line-height: var(--doity-font-lineHeight-md, 24px);
   min-height: 80px;
   padding: var(--doity-spacing-2, 8px) var(--doity-spacing-3, 12px);
-  transition:
-    border-color 0.15s ease,
-    box-shadow 0.15s ease;
+  transition: border-color 0.15s ease;
   width: 100%;
 }
 
@@ -110,8 +108,8 @@ function onInput(event) {
 }
 
 .doity-textarea__field:focus {
-  border-color: #737373;
-  box-shadow: var(--doity-shadow-focused, 0 0 0 3px rgba(161, 161, 161, 0.5));
+  border-color: var(--doity-color-border-strong, #d4d4d4);
+  box-shadow: none;
   outline: none;
 }
 
@@ -120,8 +118,8 @@ function onInput(event) {
 }
 
 .doity-textarea--error .doity-textarea__field:focus {
-  border-color: var(--doity-color-error-300, #fda29b);
-  box-shadow: var(--doity-shadow-focused-error, 0 0 0 3px rgba(240, 68, 56, 0.4));
+  border-color: var(--doity-color-error-500, #f04438);
+  box-shadow: none;
 }
 
 .doity-textarea--disabled {

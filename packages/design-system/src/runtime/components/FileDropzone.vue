@@ -86,6 +86,27 @@ function onDrop(event) {
     @dragleave="onDragLeave"
     @drop="onDrop"
   >
+    <svg
+      class="doity-file-dropzone__dash"
+      aria-hidden="true"
+    >
+      <rect
+        class="doity-file-dropzone__dash-rect"
+        x="0.5"
+        y="0.5"
+        width="99%"
+        height="99%"
+        rx="10"
+        ry="10"
+        fill="none"
+        stroke="currentColor"
+        stroke-width="1"
+        stroke-dasharray="16 7"
+        stroke-linecap="butt"
+        vector-effect="non-scaling-stroke"
+      />
+    </svg>
+
     <input
       ref="inputRef"
       type="file"
@@ -136,7 +157,7 @@ function onDrop(event) {
 <style scoped>
 .doity-file-dropzone {
   background: var(--doity-color-background-primary, #fff);
-  border: 1px dashed var(--doity-color-border-strong, #d4d4d4);
+  border: none;
   border-radius: var(--doity-radius-input, 10px);
   box-sizing: border-box;
   cursor: pointer;
@@ -146,11 +167,22 @@ function onDrop(event) {
   max-width: 100%;
   padding: var(--doity-spacing-6, 24px);
   position: relative;
-  transition:
-    background-color 0.35s cubic-bezier(0.22, 1, 0.36, 1),
-    border-color 0.35s cubic-bezier(0.22, 1, 0.36, 1);
+  transition: background-color 0.35s cubic-bezier(0.22, 1, 0.36, 1);
   width: 350px;
 }
+
+/* Traços dashed mais longos que o border:dashed nativo */
+.doity-file-dropzone__dash {
+  color: var(--doity-color-border-strong, #d4d4d4);
+  height: 100%;
+  inset: 0;
+  overflow: visible;
+  pointer-events: none;
+  position: absolute;
+  transition: color 0.35s cubic-bezier(0.22, 1, 0.36, 1);
+  width: 100%;
+}
+
 .doity-file-dropzone:focus-visible {
   outline: 2px solid var(--doity-color-border-focus, #ff2b34);
   outline-offset: 2px;
@@ -160,7 +192,12 @@ function onDrop(event) {
 .doity-file-dropzone:focus-visible:not(.doity-file-dropzone--disabled) {
   /* Figma: Dropzone Container — estado ativo */
   background: #fff5f6;
-  border-color: #ffd1d4;
+}
+
+.doity-file-dropzone:hover:not(.doity-file-dropzone--disabled) .doity-file-dropzone__dash,
+.doity-file-dropzone--active:not(.doity-file-dropzone--disabled) .doity-file-dropzone__dash,
+.doity-file-dropzone:focus-visible:not(.doity-file-dropzone--disabled) .doity-file-dropzone__dash {
+  color: #ffd1d4;
 }
 .doity-file-dropzone--disabled {
   cursor: not-allowed;

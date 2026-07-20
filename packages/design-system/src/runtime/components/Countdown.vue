@@ -1,5 +1,15 @@
 <script setup>
-import { computed, onBeforeUnmount, onMounted, ref, useSlots, watch } from 'vue'
+import {
+  computed,
+  defineComponent,
+  h,
+  nextTick,
+  onBeforeUnmount,
+  onMounted,
+  ref,
+  useSlots,
+  watch,
+} from 'vue'
 import Badge from './Badge.vue'
 
 const props = defineProps({
@@ -40,7 +50,87 @@ const props = defineProps({
 const emit = defineEmits(['update:modelValue', 'end', 'tick'])
 const slots = useSlots()
 
-const DIGITS = [0, 1, 2, 3, 4, 5, 6, 7, 8, 9]
+/**
+ * Reel com buffer para wrap countdown 0→9:
+ * [9, 0, 1, 2, 3, 4, 5, 6, 7, 8, 9]
+ * índice normal = digit + 1; wrap anima para 0 e depois snap em 10.
+ */
+const REEL = [9, 0, 1, 2, 3, 4, 5, 6, 7, 8, 9]
+const REEL_MS = 340
+
+const DigitStrip = defineComponent({
+  name: 'DoityCountdownDigit',
+  props: {
+    digit: { type: Number, required: true },
+  },
+  setup(digitProps) {
+    const index = ref(digitProps.digit + 1)
+    const instant = ref(false)
+    let snapTimer = 0
+
+    watch(
+      () => digitProps.digit,
+      (next, prev) => {
+        window.clearTimeout(snapTimer)
+
+        if (prev === undefined || prev === null) {
+          index.value = next + 1
+          return
+        }
+
+        // Countdown wrap: 0 → 9 (ex.: 20 → 19). Caminho curto para cima.
+        if (prev === 0 && next === 9) {
+          index.value = 0
+          snapTimer = window.setTimeout(async () => {
+            instant.value = true
+            index.value = 10
+            await nextTick()
+            requestAnimationFrame(() => {
+              instant.value = false
+            })
+          }, REEL_MS)
+          return
+        }
+
+        // Reset / count-up wrap: 9 → 0
+        if (prev === 9 && next === 0) {
+          instant.value = true
+          index.value = 1
+          nextTick(() => {
+            requestAnimationFrame(() => {
+              instant.value = false
+            })
+          })
+          return
+        }
+
+        index.value = next + 1
+      },
+    )
+
+    onBeforeUnmount(() => {
+      window.clearTimeout(snapTimer)
+    })
+
+    return () =>
+      h('span', { class: 'doity-countdown__digit' }, [
+        h(
+          'span',
+          {
+            class: [
+              'doity-countdown__strip',
+              { 'doity-countdown__strip--instant': instant.value },
+            ],
+            style: { '--digit': index.value },
+          },
+          REEL.map((d, i) =>
+            h('span', { class: 'doity-countdown__cell', key: i }, String(d)),
+          ),
+        ),
+      ])
+  },
+})
+
 let intervalId = 0
 const ended = ref(false)
 
@@ -178,30 +268,8 @@ onBeforeUnmount(stopAuto)
 
       <span class="doity-countdown__time" aria-hidden="true">
         <template v-for="(unit, ui) in units" :key="`b-${ui}`">
-          <span class="doity-countdown__digit">
-            <span
-              class="doity-countdown__strip"
-              :style="{ '--digit': digitPair(unit).tens }"
-            >
-              <span
-                v-for="d in DIGITS"
-                :key="`bt-${ui}-${d}`"
-                class="doity-countdown__cell"
-              >{{ d }}</span>
-            </span>
-          </span>
-          <span class="doity-countdown__digit">
-            <span
-              class="doity-countdown__strip"
-              :style="{ '--digit': digitPair(unit).ones }"
-            >
-              <span
-                v-for="d in DIGITS"
-                :key="`bo-${ui}-${d}`"
-                class="doity-countdown__cell"
-              >{{ d }}</span>
-            </span>
-          </span>
+          <DigitStrip :digit="digitPair(unit).tens" />
+          <DigitStrip :digit="digitPair(unit).ones" />
           <span
             v-if="ui < units.length - 1"
             class="doity-countdown__colon"
@@ -224,30 +292,8 @@ onBeforeUnmount(stopAuto)
 
         <span class="doity-countdown__time" aria-hidden="true">
           <template v-for="(unit, ui) in units" :key="`u-${ui}`">
-            <span class="doity-countdown__digit">
-              <span
-                class="doity-countdown__strip"
-                :style="{ '--digit': digitPair(unit).tens }"
-              >
-                <span
-                  v-for="d in DIGITS"
-                  :key="`t-${ui}-${d}`"
-                  class="doity-countdown__cell"
-                >{{ d }}</span>
-              </span>
-            </span>
-            <span class="doity-countdown__digit">
-              <span
-                class="doity-countdown__strip"
-                :style="{ '--digit': digitPair(unit).ones }"
-              >
-                <span
-                  v-for="d in DIGITS"
-                  :key="`o-${ui}-${d}`"
-                  class="doity-countdown__cell"
-                >{{ d }}</span>
-              </span>
-            </span>
+            <DigitStrip :digit="digitPair(unit).tens" />
+            <DigitStrip :digit="digitPair(unit).ones" />
             <span
               v-if="ui < units.length - 1"
               class="doity-countdown__colon"
@@ -262,30 +308,8 @@ onBeforeUnmount(stopAuto)
         aria-hidden="true"
       >
         <template v-for="(unit, ui) in units" :key="`p-${ui}`">
-          <span class="doity-countdown__digit">
-            <span
-              class="doity-countdown__strip"
-              :style="{ '--digit': digitPair(unit).tens }"
-            >
-              <span
-                v-for="d in DIGITS"
-                :key="`pt-${ui}-${d}`"
-                class="doity-countdown__cell"
-              >{{ d }}</span>
-            </span>
-          </span>
-          <span class="doity-countdown__digit">
-            <span
-              class="doity-countdown__strip"
-              :style="{ '--digit': digitPair(unit).ones }"
-            >
-              <span
-                v-for="d in DIGITS"
-                :key="`po-${ui}-${d}`"
-                class="doity-countdown__cell"
-              >{{ d }}</span>
-            </span>
-          </span>
+          <DigitStrip :digit="digitPair(unit).tens" />
+          <DigitStrip :digit="digitPair(unit).ones" />
           <span
             v-if="ui < units.length - 1"
             class="doity-countdown__colon"
@@ -450,7 +474,7 @@ onBeforeUnmount(stopAuto)
   color: var(--doity-color-text-secondary, #737373);
 }
 
-/* —— Shared time / digits —— */
+/* —— Shared time / digits (:deep — DigitStrip é componente filho) —— */
 .doity-countdown__time {
   align-items: flex-start;
   display: inline-flex;
@@ -459,7 +483,7 @@ onBeforeUnmount(stopAuto)
   overflow: hidden;
 }
 
-.doity-countdown__digit {
+.doity-countdown :deep(.doity-countdown__digit) {
   display: inline-block;
   flex-shrink: 0;
   height: var(--doity-digit-h);
@@ -469,7 +493,7 @@ onBeforeUnmount(stopAuto)
   width: var(--doity-digit-w);
 }
 
-.doity-countdown__strip {
+.doity-countdown :deep(.doity-countdown__strip) {
   --digit: 0;
   display: flex;
   flex-direction: column;
@@ -481,7 +505,11 @@ onBeforeUnmount(stopAuto)
   will-change: transform;
 }
 
-.doity-countdown__cell {
+.doity-countdown :deep(.doity-countdown__strip--instant) {
+  transition: none;
+}
+
+.doity-countdown :deep(.doity-countdown__cell) {
   display: block;
   flex-shrink: 0;
   font-variant-numeric: tabular-nums;
@@ -548,7 +576,7 @@ onBeforeUnmount(stopAuto)
 }
 
 @media (prefers-reduced-motion: reduce) {
-  .doity-countdown__strip {
+  .doity-countdown :deep(.doity-countdown__strip) {
     transition: none;
   }
 
