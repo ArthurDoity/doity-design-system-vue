@@ -1231,7 +1231,7 @@ export const componentDocs = {
   Modal: {
     exportName: 'DoityModal',
     description:
-      'Shell flexível de modal (sizes sm–xl, layouts, footer via slot). Animação sobe + fade. Para formulário com Cancelar/Salvar pronto, use DoityDialog. Para só confirmação, use DoityAlertDialog.',
+      'Shell flexível de modal (sizes sm–xxl, layouts, footer via slot). Animação sobe + fade. Para formulário com Cancelar/Salvar pronto, use DoityDialog. Para só confirmação, use DoityAlertDialog.',
     usage: `<DoityModal
   v-model:open="open"
   title="Blog post published"
@@ -1252,11 +1252,11 @@ export const componentDocs = {
       title: { description: 'Título (18/semibold)', type: 'string', control: 'text' },
       description: { description: 'Texto de apoio (14/regular, secondary)', type: 'string', control: 'text' },
       size: {
-        description: 'Largura: sm≈350, md≈408, lg≈512, xl≈544',
-        type: "'sm' | 'md' | 'lg' | 'xl'",
+        description: 'Largura: sm≈350, md≈408, lg≈512, xl≈544, xxl≈644',
+        type: "'sm' | 'md' | 'lg' | 'xl' | 'xxl'",
         default: 'md',
         control: 'select',
-        options: ['sm', 'md', 'lg', 'xl'],
+        options: ['sm', 'md', 'lg', 'xl', 'xxl'],
       },
       layout: {
         description: 'default | centered (ícone acima) | horizontal (ícone à esquerda)',

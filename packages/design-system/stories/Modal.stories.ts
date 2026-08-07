@@ -8,7 +8,7 @@ import { doityStoryMeta, storyUsage } from './helpers/doityStoryMeta'
 const meta = {
   ...doityStoryMeta('Modal', Modal, {
     argTypes: {
-      size: { control: 'select', options: ['sm', 'md', 'lg', 'xl'] },
+      size: { control: 'select', options: ['sm', 'md', 'lg', 'xl', 'xxl'] },
       layout: { control: 'select', options: ['default', 'centered', 'horizontal'] },
       actions: { control: 'select', options: ['end', 'stretch', 'stack'] },
       showClose: { control: 'boolean' },
@@ -176,7 +176,7 @@ export const Horizontal: Story = {
   }),
 }
 
-/** Tamanhos sm / md / lg / xl */
+/** Tamanhos sm / md / lg / xl / xxl */
 export const Sizes: Story = {
   name: 'Tamanhos',
   render: () => ({
@@ -196,6 +196,7 @@ export const Sizes: Story = {
         <Button hierarchy="outline" size="sm" @click="openSize('md')">MD · 408</Button>
         <Button hierarchy="outline" size="sm" @click="openSize('lg')">LG · 512</Button>
         <Button hierarchy="outline" size="sm" @click="openSize('xl')">XL · 544</Button>
+        <Button hierarchy="outline" size="sm" @click="openSize('xxl')">XXL · 644</Button>
         <Modal
           v-model:open="open"
           :size="size"

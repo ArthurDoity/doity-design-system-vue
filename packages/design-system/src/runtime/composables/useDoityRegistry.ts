@@ -36,7 +36,7 @@ export const componentRegistry: DoityRegistryEntry[] = [
   { name: 'File Upload', slug: 'file-upload', category: 'components', description: 'Card de progresso (upload/download) e arquivo concluído', figmaPage: 'Box de Inscrição e Checkout', component: 'DoityFileUpload' },
   { name: 'Input', slug: 'input', category: 'components', description: 'Campos de texto', figmaPage: 'Input', component: 'DoityInput' },
   { name: 'Item', slug: 'item', category: 'components', description: 'Item versátil com media, título, descrição e ações', figmaPage: 'Item', component: 'DoityItem' },
-  { name: 'Modal', slug: 'modal', category: 'components', description: 'Modais sm–xl com layouts e animação', figmaPage: 'Modal', component: 'DoityModal' },
+  { name: 'Modal', slug: 'modal', category: 'components', description: 'Modais sm–xxl com layouts e animação', figmaPage: 'Modal', component: 'DoityModal' },
   { name: 'Menubar', slug: 'menubar', category: 'components', description: 'Barra de menu horizontal com dropdowns', figmaPage: 'Menubar', component: 'DoityMenubar' },
   { name: 'Navbar', slug: 'navbar', category: 'components', description: 'Barra de navegação superior', figmaPage: 'Navbar', component: 'DoityNavbar' },
   { name: 'Navigation Menu', slug: 'navigation-menu', category: 'components', description: 'Menu de navegação com painel mega menu', figmaPage: 'Navigation Menu', component: 'DoityNavigationMenu' },

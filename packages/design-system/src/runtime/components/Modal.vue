@@ -6,7 +6,7 @@ const props = defineProps({
   title: { type: String, required: false },
   description: { type: String, required: false },
   /**
-   * sm ≈ 350 · md ≈ 408 · lg ≈ 512 · xl ≈ 544
+   * sm ≈ 350 · md ≈ 408 · lg ≈ 512 · xl ≈ 544 · xxl ≈ 644
    */
   size: { type: String, required: false, default: 'md' },
   /**
@@ -38,7 +38,7 @@ const isOpen = computed({
 
 const sizeClass = computed(() => {
   if (props.fullscreen) return 'doity-modal--fullscreen'
-  const map = { sm: 'sm', md: 'md', lg: 'lg', xl: 'xl' }
+  const map = { sm: 'sm', md: 'md', lg: 'lg', xl: 'xl', xxl: 'xxl' }
   return `doity-modal--${map[props.size] || 'md'}`
 })
 
@@ -200,6 +200,10 @@ function onBackdrop(e) {
 
 .doity-modal--xl {
   max-width: 544px;
+}
+
+.doity-modal--xxl {
+  max-width: 644px;
 }
 
 /* Fullscreen: mesmos tokens internos; conteúdo cresce e footer cola embaixo */
