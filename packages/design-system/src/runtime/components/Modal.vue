@@ -408,6 +408,16 @@ function onBackdrop(e) {
     align-items: center;
     text-align: center;
   }
+
+  .doity-modal__title {
+    font-size: var(--doity-font-size-md, 16px);
+    line-height: var(--doity-font-lineHeight-md, 24px);
+  }
+
+  .doity-modal__description {
+    font-size: var(--doity-font-size-xs, 12px);
+    line-height: var(--doity-font-lineHeight-xs, 18px);
+  }
 }
 
 /* Animação — igual Alert Dialog (sobe + fade) */
