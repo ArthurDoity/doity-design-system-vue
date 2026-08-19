@@ -147,12 +147,19 @@ function onInput(event) {
 }
 
 .doity-textarea--sm .doity-textarea__field {
-  font-size: max(16px, var(--doity-font-size-sm, 14px));
+  font-size: var(--doity-font-size-sm, 14px);
   line-height: var(--doity-font-lineHeight-sm, 20px);
   min-height: 64px;
 }
 
 .doity-textarea--lg .doity-textarea__field {
   min-height: 120px;
+}
+
+@media (max-width: 767px) {
+  .doity-textarea__field,
+  .doity-textarea--sm .doity-textarea__field {
+    font-size: 16px;
+  }
 }
 </style>
