@@ -155,4 +155,11 @@ function onInput(event) {
 .doity-textarea--lg .doity-textarea__field {
   min-height: 120px;
 }
+
+@media (max-width: 480px) {
+  .doity-textarea--sm .doity-textarea__field {
+    font-size: 16px;
+    line-height: 24px;
+  }
+}
 </style>

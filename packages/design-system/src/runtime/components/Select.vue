@@ -476,4 +476,11 @@ onUnmounted(() => {
     transition: none;
   }
 }
+
+@media (max-width: 480px) {
+  .doity-select__field {
+    font-size: 16px;
+    line-height: 24px;
+  }
+}
 </style>
