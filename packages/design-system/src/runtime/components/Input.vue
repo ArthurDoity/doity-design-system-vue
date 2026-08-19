@@ -266,7 +266,7 @@ function focusField(event) {
   color: var(--doity-color-text-primary, #0a0a0a);
   flex: 1;
   font-family: inherit;
-  font-size: var(--doity-component-input-fontSize, 12px);
+  font-size: max(16px, var(--doity-component-input-fontSize, 12px));
   height: 100%;
   line-height: var(--doity-component-input-lineHeight, 16px);
   min-width: 0;
