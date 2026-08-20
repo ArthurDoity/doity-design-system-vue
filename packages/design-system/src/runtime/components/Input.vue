@@ -415,10 +415,4 @@ function focusField(event) {
 .doity-input__clear:disabled {
   cursor: default;
 }
-
-@media (max-width: 767px) {
-  .doity-input__field {
-    font-size: 16px;
-  }
-}
 </style>
